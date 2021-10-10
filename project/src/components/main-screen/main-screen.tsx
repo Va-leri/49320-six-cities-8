@@ -5,7 +5,7 @@ type MainProps = {
   cardsCount: number;
 }
 
-function Main({ cardsCount }: MainProps): JSX.Element {
+function MainScreen({ cardsCount }: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -112,4 +112,4 @@ function Main({ cardsCount }: MainProps): JSX.Element {
   );
 }
 
-export default Main;
+export default MainScreen;
