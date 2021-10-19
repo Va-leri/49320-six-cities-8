@@ -66,7 +66,7 @@ export const reviews: Reviews = [
     date: new Date(),
     id: 7,
     rating: 5,
-    user: users[4],
+    user: users[0],
   },
   {
     objectId: Ids[3],

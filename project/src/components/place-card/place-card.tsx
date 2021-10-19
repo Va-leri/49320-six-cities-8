@@ -29,6 +29,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
         return 'cities__place-card';
       case AppRoute.FAVORITES:
         return 'favorites__card';
+      case AppRoute.ROOM:
+        return 'near-places__card';
       default:
         return '';
     }
@@ -40,6 +42,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
         return 'cities__image-wrapper';
       case AppRoute.FAVORITES:
         return 'favorites__image-wrapper';
+      case AppRoute.ROOM:
+        return 'near-places__image-wrapper';
       default:
         return '';
     }
