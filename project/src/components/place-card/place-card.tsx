@@ -1,37 +1,94 @@
-function PlaceCard(): JSX.Element {
+import { AppRoute, MAX_RATING } from '../../const';
+import { Offer } from '../../types/offers';
+import { Link } from 'react-router-dom';
+
+type PlaceCardProps = {
+  offer: Offer,
+  screen: string,
+};
+
+function PlaceCard(props: PlaceCardProps): JSX.Element {
+  const { offer, screen } = props;
+
+  const {
+    id,
+    isFavorite,
+    isPremium,
+    previewImage,
+    price,
+    rating,
+    title,
+    type,
+  } = offer;
+
+  const ratingRounded = Math.round(rating);
+
+  function getCardClassName(path: string) {
+    switch (path) {
+      case AppRoute.MAIN:
+        return 'cities__place-card';
+      case AppRoute.FAVORITES:
+        return 'favorites__card';
+      case AppRoute.ROOM:
+        return 'near-places__card';
+      default:
+        return '';
+    }
+  }
+
+  function getImageWrapperClassName(path: string) {
+    switch (path) {
+      case AppRoute.MAIN:
+        return 'cities__image-wrapper';
+      case AppRoute.FAVORITES:
+        return 'favorites__image-wrapper';
+      case AppRoute.ROOM:
+        return 'near-places__image-wrapper';
+      default:
+        return '';
+    }
+  }
+
   return (
-    <article className="cities__place-card place-card">
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className={`${getCardClassName(screen)} place-card`} key={id}>
+      {
+        isPremium ?
+          <div className="place-card__mark">
+            <span>Premium</span>
+          </div>
+          : ''
+      }
+
+      <div className={`${getImageWrapperClassName(screen)} place-card__image-wrapper`}>
         <a href="/">
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
         </a>
       </div>
-      <div className="place-card__info">
+      <div className={`${isFavorite ? 'favorites__card-info ' : ''} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;120</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="/icon-bookmark"></use>
+              <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">To bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={{ width: `${ratingRounded * 100 / MAX_RATING}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/">Beautiful &amp; luxurious apartment at great location</a>
+          <Link to={`/offer/${id}`}>
+            {title}
+          </Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );
