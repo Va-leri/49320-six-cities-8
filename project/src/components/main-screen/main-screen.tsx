@@ -1,11 +1,13 @@
-import PlaceCard from '../place-card/place-card';
-import { nanoid } from 'nanoid';
+import { AppRoute } from '../../const';
+import { Offers } from '../../types/offers';
+import PlacesList from '../places-list/places-list';
 
 type MainProps = {
-  cardsCount: number;
-}
+  // cardsCount: number,
+  offers: Offers,
+};
 
-function MainScreen({ cardsCount }: MainProps): JSX.Element {
+function MainScreen({ offers }: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -87,7 +89,7 @@ function MainScreen({ cardsCount }: MainProps): JSX.Element {
                     <use xlinkHref="/icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
+                <ul className="places__options places__options--custom">
                   <li className="places__option places__option--active" tabIndex={0}>Popular</li>
                   <li className="places__option" tabIndex={0}>Price: low to high</li>
                   <li className="places__option" tabIndex={0}>Price: high to low</li>
@@ -95,12 +97,9 @@ function MainScreen({ cardsCount }: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-
-                {
-                  Array(cardsCount).fill(<PlaceCard key={nanoid()} />).map((item) => item)
-                }
-
+                <PlacesList offers={offers} screen={AppRoute.MAIN} />
               </div>
+
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
