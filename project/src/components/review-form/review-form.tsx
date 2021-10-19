@@ -1,13 +1,16 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 import { MAX_RATING } from '../../const';
 
-type Review = [
-  number,
-  string,
-]
+type Review = {
+  rating: number,
+  comment: string,
+}
 
 function ReviewForm(): JSX.Element {
-  const initialState: Review = [0, ''];
+  const initialState: Review = {
+    rating: 0,
+    comment: '',
+  };
   const [review, setReview] = useState(initialState);
 
   return (
@@ -29,7 +32,7 @@ function ReviewForm(): JSX.Element {
                 }
                 const value = parseInt(evt.target.value, 10);
 
-                setReview([value, review[1]]);
+                setReview({ ...review, rating: value });
               }}
               />
               <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
@@ -45,7 +48,7 @@ function ReviewForm(): JSX.Element {
       <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => {
         const value = evt.target.value;
 
-        setReview([review[0], value]);
+        setReview({ ...review, comment: value });
       }}
       >
       </textarea>
