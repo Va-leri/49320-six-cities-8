@@ -10,8 +10,8 @@ export const offers: Offers = [
     'bedrooms': 3,
     'city': {
       'location': {
-        'latitude': 52.370216,
-        'longitude': 4.895168,
+        'latitude': 52.37611047039797,
+        'longitude': 4.904427979397728,
         'zoom': 10,
       },
       'name': 'Amsterdam',
@@ -24,8 +24,8 @@ export const offers: Offers = [
     'isFavorite': false,
     'isPremium': false,
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8,
     },
     'maxAdults': 4,
@@ -39,11 +39,11 @@ export const offers: Offers = [
     'bedrooms': 4,
     'city': {
       'location': {
-        'latitude': 49.172438329517824,
-        'longitude': 2.131909909502689,
+        'latitude': 52.37611047039797,
+        'longitude': 4.904427979397728,
         'zoom': 10,
       },
-      'name': 'Paris',
+      'name': 'Amsterdam',
     },
     'description': generateDescription(),
     'goods': ['Cable TV', 'Washing machine', 'Dishwasher'],
@@ -53,8 +53,8 @@ export const offers: Offers = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 49.18,
-      'longitude': 2.14,
+      'latitude': 52.369553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8,
     },
     'maxAdults': 1,
@@ -68,11 +68,11 @@ export const offers: Offers = [
     'bedrooms': 2,
     'city': {
       'location': {
-        'latitude': 51.16251418218736,
-        'longitude': 6.902640437514056,
+        'latitude': 52.37611047039797,
+        'longitude': 4.904427979397728,
         'zoom': 10,
       },
-      'name': 'Cologne',
+      'name': 'Amsterdam',
     },
     'description': generateDescription(),
     'goods': ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
@@ -82,8 +82,8 @@ export const offers: Offers = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 51.1,
-      'longitude': 6.91,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 8,
     },
     'maxAdults': 4,
@@ -97,11 +97,11 @@ export const offers: Offers = [
     'bedrooms': 1,
     'city': {
       'location': {
-        'latitude': 51.33043689536671,
-        'longitude': 6.787502744645261,
+        'latitude': 52.37611047039797,
+        'longitude': 4.904427979397728,
         'zoom': 10,
       },
-      'name': 'Dusseldorf',
+      'name': 'Amsterdam',
     },
     'description': generateDescription(),
     'goods': ['Cable TV', 'Dishwasher'],
@@ -111,8 +111,8 @@ export const offers: Offers = [
     'isFavorite': false,
     'isPremium': true,
     'location': {
-      'latitude': 51.34,
-      'longitude': 6.77,
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
       'zoom': 8,
     },
     'maxAdults': 1,
