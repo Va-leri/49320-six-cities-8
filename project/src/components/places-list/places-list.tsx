@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Offer, Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
 
@@ -12,7 +12,7 @@ type PlacesListProps = {
 function PlacesList(props: PlacesListProps): JSX.Element {
   const { offers, screen, onListItemHover } = props;
 
-  const [activeCard, setActiveCard] = useState('');
+  // const [activeCard, setActiveCard] = useState('');
 
   return (
     <Fragment>

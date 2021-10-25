@@ -91,7 +91,7 @@ function MainScreen({ offers }: MainProps): JSX.Element {
 
             </section>
             <div className="cities__right-section">
-              <Map city={city} points={points} selectedPoint={selectedPoint}></Map>
+              <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.MAIN}></Map>
             </div>
           </div>
         </div>

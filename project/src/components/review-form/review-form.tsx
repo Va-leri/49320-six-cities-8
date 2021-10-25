@@ -16,7 +16,6 @@ function ReviewForm(): JSX.Element {
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
-      console.log(review);
     }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
