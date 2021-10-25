@@ -7,7 +7,8 @@ import Header from '../header/header';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PlaceCard from '../place-card/place-card';
 import ReviewForm from '../review-form/review-form';
-import ReviewItem from '../review-item/review-item';
+import ReviewsList from '../reviews-list/reviews-list';
+import Map from '../map/map';
 
 type PropertyScreenProps = {
   offers: Offers,
@@ -20,17 +21,20 @@ type Params = {
 
 
 function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
-  const { id }: Params = useParams();
-  const offer = offers.find((item) => item.id === id);
+  const { id: currentId }: Params = useParams();
+  const offer = offers.find((item) => item.id === currentId);
 
-  const nearbyOffers = offers.filter((item) => item.id !== id);
+  const nearbyOffers = offers.filter((item) => item.id !== currentId);
 
-  const filteredReviews = reviews ? reviews.filter(({ objectId }) => objectId === id) : [];
-  const areReviews = Boolean(filteredReviews.length);
+  const filteredReviews = reviews ? reviews.filter(({ objectId }) => objectId === currentId) : [];
 
   if (!offer) {
     return <NotFoundScreen />;
   }
+
+  const city = offer.city;
+  const points = offers.map(({ id, location }) => ({ id, location }));
+  const selectedPoint = points.find((point) => point.id === currentId);
 
   const {
     bedrooms,
@@ -143,13 +147,12 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
               </div>
               <section className="property__reviews reviews">
                 {
-                  !areReviews ? '' :
-                    <Fragment>
-                      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                      <ul className="reviews__list">
-                        {filteredReviews.map((item) => <ReviewItem review={item} key={item.id.toString()} />)}
-                      </ul>
-                    </Fragment>
+                  filteredReviews[0] &&
+                  <Fragment>
+                    <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{filteredReviews.length}</span></h2>
+
+                    <ReviewsList reviews={filteredReviews}></ReviewsList>
+                  </Fragment>
                 }
                 {
                   <ReviewForm />
@@ -157,7 +160,9 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+
+          <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.ROOM}></Map>
+
         </section>
         <div className="container">
           <section className="near-places places">

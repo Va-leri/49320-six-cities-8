@@ -1,7 +1,7 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
-import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
+import { AppRoute, URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
 import useMap from '../../hooks/use-map';
 import { City, Point } from '../../types/offers';
 
@@ -10,9 +10,10 @@ type MapProps = {
   city: City,
   points: Point[],
   selectedPoint?: Point,
+  screen: string,
 }
 
-function Map({ city, points, selectedPoint }: MapProps): JSX.Element {
+function Map({ city, points, selectedPoint, screen }: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -27,6 +28,17 @@ function Map({ city, points, selectedPoint }: MapProps): JSX.Element {
     iconSize: [28, 40],
     iconAnchor: [14, 40],
   });
+
+  function getMapClassName(path: string) {
+    switch (path) {
+      case AppRoute.MAIN:
+        return 'cities__map';
+      case AppRoute.ROOM:
+        return 'property__map';
+      default:
+        return '';
+    }
+  }
 
   useEffect(() => {
     if (map) {
@@ -46,7 +58,7 @@ function Map({ city, points, selectedPoint }: MapProps): JSX.Element {
   }, [map, points, selectedPoint]);
 
   return (
-    <section className="cities__map map" ref={mapRef}>
+    <section className={`${getMapClassName(screen)} map`} ref={mapRef}>
     </section>
   );
 }

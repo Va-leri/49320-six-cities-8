@@ -5,7 +5,7 @@ import { users } from './users';
 
 export const reviews: Reviews = [
   {
-    objectId: Ids[0],
+    objectId: Ids[1],
     comment: generateDescription(),
     date: new Date(),
     id: 0,
@@ -13,7 +13,7 @@ export const reviews: Reviews = [
     user: users[0],
   },
   {
-    objectId: Ids[0],
+    objectId: Ids[2],
     comment: generateDescription(),
     date: new Date(),
     id: 1,
