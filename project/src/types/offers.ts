@@ -1,12 +1,12 @@
 import { User } from './user';
 
-type Location = {
+export type Location = {
   'latitude': number,
   'longitude': number,
   'zoom': number,
 };
 
-type City = {
+export type City = {
   location: Location,
   name: string,
 };
@@ -29,5 +29,7 @@ export type Offer = {
   title: string,
   type: string,
 };
+
+export type Point = Pick<Offer, 'id' | 'location'>;
 
 export type Offers = Offer[];

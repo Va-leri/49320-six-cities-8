@@ -1,14 +1,24 @@
 import { AppRoute, MAX_RATING } from '../../const';
 import { Offer } from '../../types/offers';
 import { Link } from 'react-router-dom';
+import { MouseEvent } from 'react';
 
 type PlaceCardProps = {
   offer: Offer,
   screen: string,
+  onPlaceCardHover?: (id: string) => void;
 };
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
-  const { offer, screen } = props;
+  const { offer, screen, onPlaceCardHover } = props;
+
+  function placeCardHoverHandler(evt: MouseEvent<HTMLElement>) {
+    if (!onPlaceCardHover) {
+      return;
+    }
+
+    onPlaceCardHover(evt.currentTarget.id);
+  }
 
   const {
     id,
@@ -50,7 +60,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   }
 
   return (
-    <article className={`${getCardClassName(screen)} place-card`} key={id}>
+    <article className={`${getCardClassName(screen)} place-card`} id={id} onMouseEnter={placeCardHoverHandler}>
       {
         isPremium ?
           <div className="place-card__mark">

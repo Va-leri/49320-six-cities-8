@@ -9,7 +9,6 @@ type PrivateRouteProps = RouteProps & {
 function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const { exact, path, render, authorizationStatus } = props;
 
-  // debugger;
   return (
     <Route
       exact={exact}

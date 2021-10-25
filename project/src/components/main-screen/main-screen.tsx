@@ -1,14 +1,28 @@
 import { AppRoute } from '../../const';
-import { Offers } from '../../types/offers';
+import { Offers, Point } from '../../types/offers';
 import Header from '../header/header';
 import PlacesList from '../places-list/places-list';
+import Map from '../map/map';
+import { useState } from 'react';
 
 type MainProps = {
-  // cardsCount: number,
   offers: Offers,
 };
 
 function MainScreen({ offers }: MainProps): JSX.Element {
+  const city = offers[0].city;
+  const points = offers.map(({ id, location }) => ({ id, location }));
+
+  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
+
+  const onListItemHover = (id: string) => {
+    const currentPoint = points.find((point) => point.id === id);
+
+    if (currentPoint) {
+      setSelectedPoint(currentPoint);
+    }
+  };
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -72,12 +86,12 @@ function MainScreen({ offers }: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlacesList offers={offers} screen={AppRoute.MAIN} />
+                <PlacesList offers={offers} screen={AppRoute.MAIN} onListItemHover={onListItemHover} />
               </div>
 
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={city} points={points} selectedPoint={selectedPoint}></Map>
             </div>
           </div>
         </div>

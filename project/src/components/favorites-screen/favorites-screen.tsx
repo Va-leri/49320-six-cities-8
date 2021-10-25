@@ -3,7 +3,7 @@ import { AppRoute } from '../../const';
 import { Offers } from '../../types/offers';
 import { getUniqueItems } from '../../utils';
 import Header from '../header/header';
-import PlaceList from '../place-card/place-card';
+import PlaceCard from '../place-card/place-card';
 
 type LocationItemProps = {
   city: string,
@@ -29,7 +29,7 @@ function LocationItem({ city, offers }: LocationItemProps): JSX.Element {
       <div className="favorites__places">
         {
           offers.slice().filter((offer) => offer.city.name === city && offer.isFavorite).map((offer) =>
-            <PlaceList offer={offer} key={offer.id} screen={AppRoute.FAVORITES} />)
+            <PlaceCard offer={offer} key={offer.id} screen={AppRoute.FAVORITES} />)
         }
       </div>
     </li>
