@@ -1,4 +1,3 @@
-// import { nanoid } from 'nanoid';
 import { Offers } from '../types/offers';
 import { generateDescription } from '../utils';
 import { Ids } from './offer-ids';

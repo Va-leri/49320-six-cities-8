@@ -4,13 +4,34 @@ import Header from '../header/header';
 import PlacesList from '../places-list/places-list';
 import Map from '../map/map';
 import { useState } from 'react';
+import LocationsList from '../locations-list/locations-list';
+import { connect, ConnectedProps } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { Actions } from '../../types/action';
+import { changeCity } from '../../store/action';
+import { State } from '../../types/state';
 
 type MainProps = {
   offers: Offers,
 };
 
-function MainScreen({ offers }: MainProps): JSX.Element {
-  const city = offers[0].city;
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => bindActionCreators({
+  onCityClick: changeCity,
+}, dispatch);
+
+const mapStateToProps = ({ city, offers }: State) => ({
+  city,
+  offers,
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainProps;
+
+function MainScreen(props: ConnectedComponentProps): JSX.Element {
+  const { offers, city, onCityClick } = props;
+  // const city = offers[0].city;
   const points = offers.map(({ id, location }) => ({ id, location }));
 
   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
@@ -31,38 +52,7 @@ function MainScreen({ offers }: MainProps): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <LocationsList onCityClick={onCityClick}></LocationsList>
           </section>
         </div>
         <div className="cities">
