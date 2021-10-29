@@ -12,8 +12,6 @@ type PlacesListProps = {
 function PlacesList(props: PlacesListProps): JSX.Element {
   const { offers, screen, onListItemHover } = props;
 
-  // const [activeCard, setActiveCard] = useState('');
-
   return (
     <Fragment>
       {offers.map((item: Offer) => <PlaceCard offer={item} key={item.id} screen={screen} onPlaceCardHover={onListItemHover} />)}

@@ -4,7 +4,7 @@ import { Actions, ActionType } from '../types/action';
 import { State } from '../types/state';
 
 const initialState = {
-  city: CITY,
+  city: CITY.name,
   offers: offers,
 };
 
@@ -12,6 +12,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
     case ActionType.ChangeCity:
       return { ...state, city: action.payload };
+
     case ActionType.SetOffers:
       return { ...state, offers: action.payload };
     default:

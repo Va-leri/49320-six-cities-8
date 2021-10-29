@@ -20,7 +20,7 @@ function App({ offers, reviews }: AppScreenProps): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route path={AppRoute.MAIN} exact>
-          <MainScreen offers={offers} />
+          <MainScreen />
         </Route>
         <Route path={AppRoute.SIGN_IN} exact>
           <LoginScreen />

@@ -1,5 +1,5 @@
 import { AppRoute } from '../../const';
-import { Offers, Point } from '../../types/offers';
+import { Point } from '../../types/offers';
 import Header from '../header/header';
 import PlacesList from '../places-list/places-list';
 import Map from '../map/map';
@@ -7,15 +7,12 @@ import { useState } from 'react';
 import LocationsList from '../locations-list/locations-list';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { Actions } from '../../types/action';
+// import { Actions } from '../../types/action';
 import { changeCity } from '../../store/action';
 import { State } from '../../types/state';
 
-type MainProps = {
-  offers: Offers,
-};
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   onCityClick: changeCity,
 }, dispatch);
 
@@ -27,12 +24,13 @@ const mapStateToProps = ({ city, offers }: State) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainProps;
 
-function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const { offers, city, onCityClick } = props;
-  // const city = offers[0].city;
-  const points = offers.map(({ id, location }) => ({ id, location }));
+function MainScreen(props: PropsFromRedux): JSX.Element {
+  const { offers, city: cityName, onCityClick } = props;
+  const filteredOffers = offers.filter((offer) => offer.city.name === cityName);
+
+  const city = filteredOffers[0].city;
+  const points = filteredOffers.map(({ id, location }) => ({ id, location }));
 
   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
 
@@ -52,14 +50,14 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <LocationsList onCityClick={onCityClick}></LocationsList>
+            <LocationsList onCityClick={onCityClick} activeCity={cityName}></LocationsList>
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{points.length} places to stay in {cityName}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -76,7 +74,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlacesList offers={offers} screen={AppRoute.MAIN} onListItemHover={onListItemHover} />
+                <PlacesList offers={filteredOffers} screen={AppRoute.MAIN} onListItemHover={onListItemHover} />
               </div>
 
             </section>
@@ -90,4 +88,5 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export default MainScreen;
+export { MainScreen };
+export default connector(MainScreen);

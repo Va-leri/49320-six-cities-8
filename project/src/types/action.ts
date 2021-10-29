@@ -7,7 +7,7 @@ export enum ActionType {
 
 export type ChangeCityAction = {
   type: ActionType.ChangeCity,
-  payload: City,
+  payload: string,
 }
 
 

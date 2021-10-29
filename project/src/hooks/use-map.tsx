@@ -10,7 +10,10 @@ function useMap(
   const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
+    console.log(map);
+    // debugger;
     if (mapRef.current !== null && map === null) {
+      // console.log(map);
       const instance = leaflet.map(mapRef.current, {
         center: {
           lat: city.location.latitude,
