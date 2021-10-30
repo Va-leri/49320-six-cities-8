@@ -1,10 +1,10 @@
-import { CITY } from '../mocks/city';
+import { CITIES } from '../const';
 import { offers } from '../mocks/offers';
 import { Actions, ActionType } from '../types/action';
 import { State } from '../types/state';
 
 const initialState = {
-  city: CITY.name,
+  city: CITIES[0],
   offers: offers,
 };
 

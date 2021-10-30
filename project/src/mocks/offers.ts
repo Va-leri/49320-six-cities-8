@@ -141,8 +141,8 @@ export const offers: Offers = [
     'isFavorite': false,
     'isPremium': false,
     'location': {
-      'latitude': 52.3909553943508,
-      'longitude': 4.85309666406198,
+      'latitude': 48.9909553943508,
+      'longitude': 2.35309666406198,
       'zoom': 8,
     },
     'maxAdults': 4,
@@ -170,8 +170,8 @@ export const offers: Offers = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 52.369553943508,
-      'longitude': 4.85309666406198,
+      'latitude': 51.069553943508,
+      'longitude': 6.95309666406198,
       'zoom': 8,
     },
     'maxAdults': 1,
@@ -199,8 +199,8 @@ export const offers: Offers = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 52.3909553943508,
-      'longitude': 4.929309666406198,
+      'latitude': 51.0909553943508,
+      'longitude': 6.929309666406198,
       'zoom': 8,
     },
     'maxAdults': 4,
@@ -228,8 +228,8 @@ export const offers: Offers = [
     'isFavorite': false,
     'isPremium': true,
     'location': {
-      'latitude': 52.3809553943508,
-      'longitude': 4.939309666406198,
+      'latitude': 50.9809553943508,
+      'longitude': 4.339309666406198,
       'zoom': 8,
     },
     'maxAdults': 1,

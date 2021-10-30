@@ -1,7 +1,6 @@
 import { AppRoute } from '../../const';
 import { Point } from '../../types/offers';
 import Header from '../header/header';
-import PlacesList from '../places-list/places-list';
 import Map from '../map/map';
 import { useState } from 'react';
 import LocationsList from '../locations-list/locations-list';
@@ -10,7 +9,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 // import { Actions } from '../../types/action';
 import { changeCity } from '../../store/action';
 import { State } from '../../types/state';
-
+import NoPlaces from '../no-places/no-plases';
+import Places from '../places/places';
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   onCityClick: changeCity,
@@ -29,8 +29,10 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
   const { offers, city: cityName, onCityClick } = props;
   const filteredOffers = offers.filter((offer) => offer.city.name === cityName);
 
-  const city = filteredOffers[0].city;
-  const points = filteredOffers.map(({ id, location }) => ({ id, location }));
+  const areFilteredOffers = Boolean(filteredOffers.length);
+
+  const city = areFilteredOffers ? filteredOffers[0].city : undefined;
+  const points = areFilteredOffers ? filteredOffers.map(({ id, location }) => ({ id, location })) : [];
 
   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
 
@@ -42,11 +44,12 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
     }
   };
 
+
   return (
     <div className="page page--gray page--main">
       <Header />
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${!areFilteredOffers ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -54,32 +57,15 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{points.length} places to stay in {cityName}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="/icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlacesList offers={filteredOffers} screen={AppRoute.MAIN} onListItemHover={onListItemHover} />
-              </div>
+          <div className={`cities__places-container container ${!areFilteredOffers ? 'cities__places-container--empty' : ''}`}>
 
-            </section>
+            {areFilteredOffers
+              ? <Places points={points} cityName={cityName} filteredOffers={filteredOffers} onListItemHover={onListItemHover} />
+              : <NoPlaces cityName={cityName} />}
+
             <div className="cities__right-section">
-              <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.MAIN}></Map>
+              {city &&
+                <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.MAIN}></Map>}
             </div>
           </div>
         </div>

@@ -10,10 +10,7 @@ function useMap(
   const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
-    console.log(map);
-    // debugger;
     if (mapRef.current !== null && map === null) {
-      // console.log(map);
       const instance = leaflet.map(mapRef.current, {
         center: {
           lat: city.location.latitude,
@@ -32,6 +29,11 @@ function useMap(
         .addTo(instance);
 
       setMap(instance);
+    } else {
+      map?.setView({
+        lat: city.location.latitude,
+        lng: city.location.longitude,
+      }, city.location.zoom);
     }
   }, [mapRef, map, city]);
 
