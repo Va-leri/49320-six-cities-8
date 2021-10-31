@@ -1,8 +1,8 @@
-type noPlacesProps = {
+type NoPlacesProps = {
   cityName: string,
 }
 
-function NoPlaces({ cityName }: noPlacesProps): JSX.Element {
+function NoPlaces({ cityName }: NoPlacesProps): JSX.Element {
   return (
     <section className="cities__no-places">
       <div className="cities__status-wrapper tabs__content">
