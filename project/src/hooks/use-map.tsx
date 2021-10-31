@@ -29,6 +29,11 @@ function useMap(
         .addTo(instance);
 
       setMap(instance);
+    } else {
+      map?.setView({
+        lat: city.location.latitude,
+        lng: city.location.longitude,
+      }, city.location.zoom);
     }
   }, [mapRef, map, city]);
 
