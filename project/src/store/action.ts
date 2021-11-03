@@ -6,7 +6,7 @@ export const changeCity = (city: string): ChangeCityAction => ({
   payload: city,
 });
 
-export const changeSorting = (sorting: SortingType): ChangeSortingAction => ({
+export const updateSorting = (sorting: SortingType): ChangeSortingAction => ({
   type: ActionType.ChangeSorting,
   payload: sorting,
 });

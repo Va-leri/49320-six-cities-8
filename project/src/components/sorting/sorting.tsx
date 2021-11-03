@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { SortingType } from '../../const';
-import { changeSorting } from '../../store/action';
+import { updateSorting } from '../../store/action';
 
 type SortingProps = {
   sortingType: SortingType,
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-  changeSorting,
+  changeSorting: updateSorting,
 }, dispatch);
 
 const connector = connect(null, mapDispatchToProps);
