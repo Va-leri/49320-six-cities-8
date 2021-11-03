@@ -6,7 +6,6 @@ import { useState } from 'react';
 import LocationsList from '../locations-list/locations-list';
 import { connect, ConnectedProps } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-// import { Actions } from '../../types/action';
 import { changeCity } from '../../store/action';
 import { State } from '../../types/state';
 import NoPlaces from '../no-places/no-plases';

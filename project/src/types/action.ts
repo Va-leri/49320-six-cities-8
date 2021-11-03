@@ -1,11 +1,14 @@
-import { Offers } from './offers';
+// import { SortingType } from '../const';
+// import { Offers } from './offers';
+import { changeCity, updateSorting } from '../store/action';
 
 export enum ActionType {
   ChangeCity = 'changeCity',
   SetOffers = 'setOffers',
+  ChangeSorting = 'changeSorting',
 }
 
-export type ChangeCityAction = {
+/* export type ChangeCityAction = {
   type: ActionType.ChangeCity,
   payload: string,
 }
@@ -16,4 +19,11 @@ export type SetOffersAction = {
   payload: Offers,
 }
 
-export type Actions = ChangeCityAction | SetOffersAction;
+export type ChangeSortingAction = {
+  type: ActionType.ChangeSorting,
+  payload: SortingType,
+} */
+
+export type Actions =
+  | ReturnType<typeof changeCity>
+  | ReturnType<typeof updateSorting>;
