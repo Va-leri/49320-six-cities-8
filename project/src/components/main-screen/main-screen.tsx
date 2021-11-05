@@ -35,7 +35,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
 
   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
 
-  const onListItemHover = (id: string) => {
+  const onListItemHover = (id: number) => {
     const currentPoint = points.find((point) => point.id === id);
 
     if (currentPoint) {

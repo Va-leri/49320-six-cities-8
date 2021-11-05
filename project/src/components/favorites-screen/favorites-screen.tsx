@@ -1,6 +1,8 @@
+import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Offers } from '../../types/offers';
+import { State } from '../../types/state';
 import { getUniqueItems } from '../../utils';
 import Header from '../header/header';
 import PlaceCard from '../place-card/place-card';
@@ -10,10 +12,13 @@ type LocationItemProps = {
   offers: Offers,
 };
 
-type FavoriteProps = {
-  offers: Offers,
-};
+const mapStateToProps = ({ offers }: State) => ({
+  offers,
+});
 
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function LocationItem({ city, offers }: LocationItemProps): JSX.Element {
   return (
@@ -36,7 +41,7 @@ function LocationItem({ city, offers }: LocationItemProps): JSX.Element {
   );
 }
 
-function FavoritesScreen({ offers }: FavoriteProps): JSX.Element {
+function FavoritesScreen({ offers }: PropsFromRedux): JSX.Element {
   const favoriteOffers = offers.slice().filter(({ isFavorite }) => isFavorite);
 
   const cities = favoriteOffers.map(({ city }) => city.name);
@@ -68,4 +73,5 @@ function FavoritesScreen({ offers }: FavoriteProps): JSX.Element {
   );
 }
 
-export default FavoritesScreen;
+export { FavoritesScreen };
+export default connector(FavoritesScreen);

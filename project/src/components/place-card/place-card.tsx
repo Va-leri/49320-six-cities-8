@@ -6,7 +6,7 @@ import { MouseEvent } from 'react';
 type PlaceCardProps = {
   offer: Offer,
   screen: string,
-  onPlaceCardHover?: (id: string) => void;
+  onPlaceCardHover?: (id: number) => void;
 };
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
@@ -16,8 +16,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
     if (!onPlaceCardHover) {
       return;
     }
-
-    onPlaceCardHover(evt.currentTarget.id);
+    const id = +evt.currentTarget.id;
+    onPlaceCardHover(id);
   }
 
   const {
@@ -60,7 +60,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   }
 
   return (
-    <article className={`${getCardClassName(screen)} place-card`} id={id} onMouseEnter={placeCardHoverHandler}>
+    <article className={`${getCardClassName(screen)} place-card`} id={id.toString()} onMouseEnter={placeCardHoverHandler}>
       {
         isPremium ?
           <div className="place-card__mark">

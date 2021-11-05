@@ -5,11 +5,11 @@ export const AppRoute = {
   ROOM: '/offer/:id',
 };
 
-export const AuthorizationStatus = {
+/* export const AuthorizationStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',
   UNKNOWN: 'UNKNOWN',
-};
+}; */
 
 export const MAX_RATING = 5;
 
@@ -31,4 +31,16 @@ export enum SortingType {
   PRICE_ASC = 'Price low to high',
   PRICE_DESC = 'Price high to low',
   RATING_DESC = 'Top rated first',
+}
+
+export enum AuthorizationStatus {
+  AUTH = 'Authorized',
+  NO_AUTH = 'Unauthorized',
+  UNKNOWN = 'Unknown',
+}
+
+export enum APIRoute {
+  OFFERS = '/hotels',
+  LOGIN = '/login',
+  LOGOUT = '/logout',
 }

@@ -8,7 +8,7 @@ type PlacesListProps = {
   offers: Offers;
   screen: string,
   sortingType: SortingType,
-  onListItemHover: (id: string) => void | null,
+  onListItemHover: (id: number) => void | null,
 };
 
 const getSortedOffers = (offers: Offers, sortingType: SortingType): Offers => {
