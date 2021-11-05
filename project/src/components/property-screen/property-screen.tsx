@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { useParams } from 'react-router';
 import { AppRoute, MAX_RATING } from '../../const';
-import { Offers } from '../../types/offers';
+// import { Offers } from '../../types/offers';
 import { Reviews } from '../../types/reviews';
 import Header from '../header/header';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
@@ -9,9 +9,10 @@ import PlaceCard from '../place-card/place-card';
 import ReviewForm from '../review-form/review-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
+import { State } from '../../types/state';
+import { connect, ConnectedProps } from 'react-redux';
 
 type PropertyScreenProps = {
-  offers: Offers,
   reviews: Reviews
 }
 
@@ -19,14 +20,22 @@ type Params = {
   id: string,
 }
 
+const mapStateToProps = ({ offers }: State) => ({
+  offers,
+});
 
-function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & PropertyScreenProps;
+
+function PropertyScreen({ offers, reviews }: ConnectedComponentProps): JSX.Element {
   const { id: currentId }: Params = useParams();
-  const offer = offers.find((item) => item.id === currentId);
+  const offer = offers.find((item) => item.id === +currentId);
 
-  const nearbyOffers = offers.filter((item) => item.id !== currentId);
+  const nearbyOffers = offers.filter((item) => item.id !== +currentId);
 
-  const filteredReviews = reviews ? reviews.filter(({ objectId }) => objectId === currentId) : [];
+  const filteredReviews = reviews ? reviews.filter(({ objectId }) => objectId === +currentId) : [];
 
   if (!offer) {
     return <NotFoundScreen />;
@@ -34,7 +43,7 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
 
   const city = offer.city;
   const points = offers.map(({ id, location }) => ({ id, location }));
-  const selectedPoint = points.find((point) => point.id === currentId);
+  const selectedPoint = points.find((point) => point.id === +currentId);
 
   const {
     bedrooms,
@@ -181,4 +190,5 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
   );
 }
 
-export default PropertyScreen;
+export { PropertyScreen };
+export default connector(PropertyScreen);

@@ -9,7 +9,7 @@ type PlacesProps = {
   points: Point[],
   cityName: string,
   filteredOffers: Offers,
-  onListItemHover: (id: string) => void,
+  onListItemHover: (id: number) => void,
 }
 
 const mapStateToProps = ({ sorting }: State) => ({
