@@ -13,19 +13,36 @@ const initialState = {
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
     case ActionType.ChangeCity:
-      return { ...state, city: action.payload };
+      return {
+        ...state,
+        city: action.payload,
+      };
+
     case ActionType.ChangeSorting:
-      return { ...state, sorting: action.payload };
+      return {
+        ...state,
+        sorting: action.payload,
+      };
+
     case ActionType.LoadOffers:
       return {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
       };
+
     case ActionType.RequireAuthorization:
-      return { ...state, authorizationStatus: action.payload };
+      return {
+        ...state,
+        authorizationStatus: action.payload,
+      };
+
     case ActionType.RequireLogout:
-      return { ...state, authorizationStatus: AuthorizationStatus.NO_AUTH };
+      return {
+        ...state,
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
+      };
+
     default:
       return state;
   }

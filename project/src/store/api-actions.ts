@@ -1,8 +1,11 @@
-import { APIRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { ThunkActionResult } from '../types/action';
-import { OffersFromServer } from '../types/hotels';
+import { OffersFromServer } from '../types/data-from-server';
 import { Offers } from '../types/offers';
-import { loadOffers, requireAuthorization } from './action';
+import { loadOffers, redirectToRout, requireAuthorization } from './action';
+import { AuthData } from '../types/auth-data';
+import { saveToken, Token } from '../services/token';
+
 
 const adaptOffersToClient = (offers: OffersFromServer): Offers => (
   offers.map((offer) => ({
@@ -28,7 +31,13 @@ export const checkAuthAction = (): ThunkActionResult => async (dispatch, _getSta
   await api.get(APIRoute.LOGIN)
     .then(() => {
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
-    });
+    })
+    .catch((error) => console.log(error));
 };
 
-// export const loginAction = (): ThunkActionResult
+export const loginAction = (data: AuthData): ThunkActionResult => async (dispatch, _getState, api) => {
+  const { data: { token } } = await api.post<{ token: Token }>(APIRoute.LOGIN, data);
+  saveToken(token);
+  dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+  dispatch(redirectToRout(AppRoute.MAIN));
+};

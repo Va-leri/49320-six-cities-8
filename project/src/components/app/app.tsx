@@ -1,5 +1,5 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { Router as BrowserRouter, Switch, Route } from 'react-router-dom';
+import { AppRoute } from '../../const';
 import MainScreen from '../main-screen/main-screen';
 import LoginScreen from '../login-screen/login-screen';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
@@ -10,6 +10,7 @@ import { Reviews } from '../../types/reviews';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
+import browserHistory from '../../browser-history';
 
 type AppScreenProps = {
   reviews: Reviews
@@ -31,7 +32,7 @@ function App({ isDataLoaded, reviews }: ConnectedComponentProps): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route path={AppRoute.MAIN} exact>
           <MainScreen />
@@ -46,7 +47,7 @@ function App({ isDataLoaded, reviews }: ConnectedComponentProps): JSX.Element {
           exact
           path={AppRoute.FAVORITES}
           render={() => <FavoritesScreen />}
-          authorizationStatus={AuthorizationStatus.AUTH}
+        // authorizationStatus={AuthorizationStatus.AUTH}
         >
         </PrivateRoute>
         <Route>

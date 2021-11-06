@@ -1,9 +1,9 @@
-export const AppRoute = {
-  MAIN: '/',
-  SIGN_IN: '/login',
-  FAVORITES: '/favorites',
-  ROOM: '/offer/:id',
-};
+export enum AppRoute {
+  MAIN = '/',
+  SIGN_IN = '/login',
+  FAVORITES = '/favorites',
+  ROOM = '/offer/:id',
+}
 
 /* export const AuthorizationStatus = {
   AUTH: 'AUTH',
