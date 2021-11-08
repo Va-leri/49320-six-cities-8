@@ -41,13 +41,12 @@ function App({ isDataLoaded, reviews }: ConnectedComponentProps): JSX.Element {
           <LoginScreen />
         </Route>
         <Route path={AppRoute.ROOM} exact>
-          <PropertyScreen reviews={reviews} />
+          <PropertyScreen />
         </Route>
         <PrivateRoute
           exact
           path={AppRoute.FAVORITES}
           render={() => <FavoritesScreen />}
-        // authorizationStatus={AuthorizationStatus.AUTH}
         >
         </PrivateRoute>
         <Route>

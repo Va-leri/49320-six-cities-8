@@ -1,13 +1,26 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { logoutAction } from '../../store/api-actions';
+import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 
-const mapStateToProps = ({ authorizationStatus }: State) => ({
-  authorizationStatus,
+type UserProps = {
+  login: string,
+}
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  logout() {
+    dispatch(logoutAction());
+  },
 });
 
-const connector = connect(mapStateToProps);
+const mapStateToProps = ({ authorizationStatus, login }: State) => ({
+  authorizationStatus,
+  login,
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
@@ -21,17 +34,17 @@ function Guest(): JSX.Element {
   );
 }
 
-function User(): JSX.Element {
+function User({ login }: UserProps): JSX.Element {
   return (
     <Link to={AppRoute.FAVORITES} className="header__nav-link header__nav-link--profile" >
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
-      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+      <span className="header__user-name user__name">{login}</span>
     </Link>
   );
 }
 
-function Header({ authorizationStatus }: PropsFromRedux): JSX.Element {
+function Header({ authorizationStatus, login, logout }: PropsFromRedux): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -46,16 +59,20 @@ function Header({ authorizationStatus }: PropsFromRedux): JSX.Element {
               <li className="header__nav-item user">
                 {
                   authorizationStatus === AuthorizationStatus.AUTH
-                    ? <User />
+                    ? <User login={login} />
                     : <Guest />
                 }
               </li>
               {
                 authorizationStatus === AuthorizationStatus.AUTH &&
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <Link className="header__nav-link" to="/" onClick={(evt) => {
+                    evt.preventDefault();
+                    logout();
+                  }}
+                  >
                     <span className="header__signout">Sign out</span>
-                  </a>
+                  </Link>
                 </li>
               }
             </ul>

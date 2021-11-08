@@ -37,4 +37,13 @@ export type OfferFromServer = {
   'type': string,
 }
 
+export type CommentFromServer = {
+  'comment': string,
+  'date': string,
+  'id': number,
+  'rating': number,
+  'user': UserFromServer,
+};
+
 export type OffersFromServer = OfferFromServer[];
+export type CommentsFromServer = CommentFromServer[];

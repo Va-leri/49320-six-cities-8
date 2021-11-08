@@ -1,6 +1,8 @@
 import { AppRoute, AuthorizationStatus, SortingType } from '../const';
 import { ActionType } from '../types/action';
 import { Offers } from '../types/offers';
+import { Reviews } from '../types/reviews';
+import { State } from '../types/state';
 
 export const changeCity = (city: string) => ({
   type: ActionType.ChangeCity,
@@ -17,6 +19,16 @@ export const loadOffers = (offers: Offers) => ({
   payload: offers,
 } as const);
 
+export const loadCurrentOffer = (offer: State['currentOffer']) => ({
+  type: ActionType.LoadCurrentOffer,
+  payload: offer,
+}) as const;
+
+export const loadComments = (comments: Reviews) => ({
+  type: ActionType.LoadComments,
+  payload: comments,
+} as const);
+
 export const requireAuthorization = (authStatus: AuthorizationStatus) => ({
   type: ActionType.RequireAuthorization,
   payload: authStatus,
@@ -29,4 +41,9 @@ export const requireLogout = () => ({
 export const redirectToRout = (url: AppRoute) => ({
   type: ActionType.RedirectToRout,
   payload: url,
+} as const);
+
+export const setLogin = (userEmail: string) => ({
+  type: ActionType.SetLogin,
+  payload: userEmail,
 } as const);

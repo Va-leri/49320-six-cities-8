@@ -1,27 +1,29 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 import { MAX_RATING } from '../../const';
+import { CommentPost } from '../../types/comment';
 
-type Review = {
-  rating: number,
-  comment: string,
+type ReviewProps = {
+  onFormSubmit: (review: CommentPost) => void,
 }
 
-function ReviewForm(): JSX.Element {
-  const initialState: Review = {
+function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
+  const initialState: CommentPost = {
     rating: 0,
     comment: '',
   };
   const [review, setReview] = useState(initialState);
 
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    onFormSubmit(review);
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={(evt: FormEvent<HTMLFormElement>) => {
-      evt.preventDefault();
-    }}
-    >
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {Array(MAX_RATING).fill('').map((item, id) => {
-          const rating = id + 1;
+          const rating = MAX_RATING - id;
 
           return (
             <Fragment key={rating}>
@@ -55,7 +57,7 @@ function ReviewForm(): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit">Submit</button>
       </div>
     </form>
   );

@@ -43,4 +43,6 @@ export enum APIRoute {
   OFFERS = '/hotels',
   LOGIN = '/login',
   LOGOUT = '/logout',
+  COMMENTS = '/comments',
+  NEARBY = '/nearby',
 }

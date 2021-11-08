@@ -9,8 +9,7 @@ type PlaceCardProps = {
   onPlaceCardHover?: (id: number) => void;
 };
 
-function PlaceCard(props: PlaceCardProps): JSX.Element {
-  const { offer, screen, onPlaceCardHover } = props;
+function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Element {
 
   function placeCardHoverHandler(evt: MouseEvent<HTMLElement>) {
     if (!onPlaceCardHover) {
