@@ -1,10 +1,10 @@
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { ThunkActionResult } from '../types/action';
-import { CommentsFromServer, OfferFromServer, OffersFromServer } from '../types/data-from-server';
-import { changeCity, loadCurrentOffer, loadComments, redirectToRout, requireAuthorization, requireLogout, setLogin, loadOffers } from './action';
+import { AuthInfoFromServer, CommentsFromServer, OfferFromServer, OffersFromServer } from '../types/data-from-server';
+import { changeCity, loadCurrentOffer, loadComments, redirectToRout, requireAuthorization, requireLogout, loadOffers, loadNearbyOffers, setUserAuthInfo } from './action';
 import { AuthData } from '../types/auth-data';
-import { dropToken, saveToken, Token } from '../services/token';
-import { adaptCommentToClient, adaptOffersToClient, adaptOfferToClient } from '../adapter/adapter';
+import { dropToken, saveToken } from '../services/token';
+import { adaptAuthInfoToClient, adaptCommentToClient, adaptOffersToClient, adaptOfferToClient } from '../adapter/adapter';
 import { CommentPost } from '../types/comment';
 
 
@@ -25,10 +25,17 @@ export const fetchCurrentOfferAction = (id: number): ThunkActionResult => async 
     });
 };
 
-export const checkAuthAction = (): ThunkActionResult => async (dispatch, _getState, api) => {
+export const fetchNearbyOffersAction = (id: number): ThunkActionResult => async (dispatch, _getState, api): Promise<void> => {
+  const { data } = await api.get<OffersFromServer>(`${APIRoute.OFFERS}/${id}${APIRoute.NEARBY}`);
+  dispatch(loadNearbyOffers(adaptOffersToClient(data)));
+};
+
+export const checkAuthAction = (): ThunkActionResult => async (dispatch, getState, api) => {
   await api.get(APIRoute.LOGIN)
-    .then(() => {
+    .then(({ data }) => {
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+      // const user = getState().user;
+      dispatch(setUserAuthInfo(data));
     })
     .catch((error) => {
       dispatch(requireLogout());
@@ -36,11 +43,11 @@ export const checkAuthAction = (): ThunkActionResult => async (dispatch, _getSta
     });
 };
 
-export const loginAction = (data: AuthData): ThunkActionResult => async (dispatch, _getState, api) => {
-  const { data: { token } } = await api.post<{ token: Token }>(APIRoute.LOGIN, data);
-  saveToken(token);
+export const loginAction = (authData: AuthData): ThunkActionResult => async (dispatch, _getState, api) => {
+  const { data } = await api.post<AuthInfoFromServer>(APIRoute.LOGIN, authData);
+  saveToken(data.token);
   dispatch(requireAuthorization(AuthorizationStatus.AUTH));
-  dispatch(setLogin(data.email));
+  dispatch(setUserAuthInfo(adaptAuthInfoToClient(data)));
   dispatch(redirectToRout(AppRoute.MAIN));
 };
 
@@ -48,7 +55,7 @@ export const logoutAction = (): ThunkActionResult => async (dispatch, _getState,
   api.delete(APIRoute.LOGOUT);
   dropToken();
   dispatch(requireLogout());
-  dispatch(setLogin(''));
+  dispatch(setUserAuthInfo());
 };
 
 export const fetchCommentsAction = (): ThunkActionResult => async (dispatch, getState, api): Promise<void> => {
@@ -61,5 +68,5 @@ export const fetchReviewAction = (review: CommentPost): ThunkActionResult => asy
   const objectId = getState().currentOffer.id;
   const { data } = await api.post<CommentsFromServer>(`${APIRoute.COMMENTS}/${objectId}`, review);
   dispatch(loadComments(data.map((item) => adaptCommentToClient(item))));
-
 };
+

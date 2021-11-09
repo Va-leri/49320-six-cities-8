@@ -6,10 +6,11 @@ const initialState = {
   city: CITIES[0],
   offers: [],
   currentOffer: {},
+  nearbyOffers: [],
   comments: [],
   sorting: SortingType.POPULAR,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
-  login: '',
+  user: {},
   isDataLoaded: false,
 };
 
@@ -38,13 +39,21 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {
         ...state,
         currentOffer: action.payload,
+        isDataLoaded: true,
+      };
+
+    case ActionType.LoadNearbyOffers:
+      return {
+        ...state,
+        nearbyOffers: action.payload,
+        // isDataLoaded: true,
       };
 
     case ActionType.LoadComments:
       return {
         ...state,
         comments: action.payload,
-        isDataLoaded: true,
+        // isDataLoaded: true,
       };
 
     case ActionType.RequireAuthorization:
@@ -59,10 +68,16 @@ const reducer = (state: State = initialState, action: Actions): State => {
         authorizationStatus: AuthorizationStatus.NO_AUTH,
       };
 
-    case ActionType.SetLogin:
+    case ActionType.RequireDataUnload:
       return {
         ...state,
-        login: action.payload,
+        isDataLoaded: false,
+      };
+
+    case ActionType.SetUserAuthInfo:
+      return {
+        ...state,
+        user: action.payload,
       };
 
     default:

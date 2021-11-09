@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { APIRoute, AppRoute, AuthorizationStatus, MAX_RATING } from '../../const';
+import { AppRoute, AuthorizationStatus, MAX_RATING } from '../../const';
 import Header from '../header/header';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PlaceCard from '../place-card/place-card';
@@ -10,13 +10,11 @@ import Map from '../map/map';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkAppDispatch } from '../../types/action';
-import { api, store } from '../../index';
-import { fetchCommentsAction, fetchCurrentOfferAction, fetchReviewAction } from '../../store/api-actions';
-import { Offers } from '../../types/offers';
+import { store } from '../../index';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { OffersFromServer } from '../../types/data-from-server';
-import { adaptOffersToClient } from '../../adapter/adapter';
 import { CommentPost } from '../../types/comment';
+import { requireDataUnload } from '../../store/action';
 
 type Params = {
   id: string,
@@ -28,34 +26,27 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   },
 });
 
-const mapStateToProps = ({ currentOffer, comments, authorizationStatus }: State) => ({
+const mapStateToProps = ({ currentOffer, nearbyOffers, comments, authorizationStatus, isDataLoaded }: State) => ({
   currentOffer,
+  nearbyOffers,
   comments,
   authorizationStatus,
+  isDataLoaded,
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function PropertyScreen({ currentOffer, comments, authorizationStatus, onReviewSubmit }: PropsFromRedux): JSX.Element {
+function PropertyScreen({ currentOffer, nearbyOffers, comments, authorizationStatus, isDataLoaded, onReviewSubmit }: PropsFromRedux): JSX.Element {
   const { id: currentId }: Params = useParams();
-  const [isDataLoaded, setDataLoading] = useState<boolean>(false);
-  const [nearbyOffers, setNearbyOffers] = useState<Offers>([]);
   const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
 
-  const fetchNearbyOffers = async () => {
-    const { data } = await api.get<OffersFromServer>(`${APIRoute.OFFERS}/${currentId}${APIRoute.NEARBY}`);
-    setNearbyOffers(adaptOffersToClient(data));
-  };
-
   useEffect(() => {
+    store.dispatch(requireDataUnload());
     (store.dispatch as ThunkAppDispatch)(fetchCurrentOfferAction(+currentId))
       .then(() => {
-        setDataLoading(true);
-        fetchNearbyOffers();
-      })
-      .then(() => {
+        (store.dispatch as ThunkAppDispatch)(fetchNearbyOffersAction(+currentId));
         (store.dispatch as ThunkAppDispatch)(fetchCommentsAction());
       });
   }, [currentId]);

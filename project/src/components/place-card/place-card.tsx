@@ -69,9 +69,9 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
       }
 
       <div className={`${getImageWrapperClassName(screen)} place-card__image-wrapper`}>
-        <a href="/">
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
-        </a>
+        </Link>
       </div>
       <div className={`${isFavorite ? 'favorites__card-info ' : ''} place-card__info`}>
         <div className="place-card__price-wrapper">

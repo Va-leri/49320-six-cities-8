@@ -1,4 +1,5 @@
-import { CommentFromServer, OfferFromServer, OffersFromServer, UserFromServer } from '../types/data-from-server';
+import { AuthInfo } from '../types/auth-info';
+import { AuthInfoFromServer, CommentFromServer, OfferFromServer, OffersFromServer, UserFromServer } from '../types/data-from-server';
 import { Offer, Offers } from '../types/offers';
 import { Review } from '../types/reviews';
 import { User } from '../types/user';
@@ -27,3 +28,13 @@ export const adaptCommentToClient = (comment: CommentFromServer): Review => ({
   user: adaptUserToClient(comment.user),
   date: new Date(comment.date),
 });
+
+export const adaptAuthInfoToClient = (authInfo: AuthInfoFromServer): AuthInfo => {
+  const { email, token, ...user } = authInfo;
+  const adaptedUser = adaptUserToClient(user);
+  return {
+    email,
+    token,
+    ...adaptedUser,
+  };
+};

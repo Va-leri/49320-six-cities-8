@@ -9,7 +9,7 @@ import PrivateRoute from '../private-route/private-route';
 import { Reviews } from '../../types/reviews';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
-import LoadingScreen from '../loading-screen/loading-screen';
+// import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../browser-history';
 
 type AppScreenProps = {
@@ -26,10 +26,10 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 
-function App({ isDataLoaded, reviews }: ConnectedComponentProps): JSX.Element {
-  if (!isDataLoaded) {
+function App({ reviews }: ConnectedComponentProps): JSX.Element {
+  /* if (!isDataLoaded) {
     return <LoadingScreen />;
-  }
+  } */
 
   return (
     <BrowserRouter history={browserHistory}>

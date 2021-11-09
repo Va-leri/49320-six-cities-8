@@ -1,3 +1,5 @@
+import { Token } from '../services/token';
+
 export type LocationFromServer = {
   'latitude': number,
   'longitude': number,
@@ -44,6 +46,11 @@ export type CommentFromServer = {
   'rating': number,
   'user': UserFromServer,
 };
+
+export type AuthInfoFromServer = UserFromServer & {
+  'email': string,
+  'token': Token,
+}
 
 export type OffersFromServer = OfferFromServer[];
 export type CommentsFromServer = CommentFromServer[];

@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 import { ThunkAppDispatch } from '../../types/action';
+import { AuthInfo } from '../../types/auth-info';
 import { State } from '../../types/state';
 
 type UserProps = {
-  login: string,
+  user: AuthInfo | Record<string, never>,
 }
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -15,9 +16,9 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   },
 });
 
-const mapStateToProps = ({ authorizationStatus, login }: State) => ({
+const mapStateToProps = ({ authorizationStatus, user }: State) => ({
   authorizationStatus,
-  login,
+  user,
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -34,17 +35,17 @@ function Guest(): JSX.Element {
   );
 }
 
-function User({ login }: UserProps): JSX.Element {
+function User({ user }: UserProps): JSX.Element {
   return (
     <Link to={AppRoute.FAVORITES} className="header__nav-link header__nav-link--profile" >
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
-      <span className="header__user-name user__name">{login}</span>
+      <span className="header__user-name user__name">{user.email}</span>
     </Link>
   );
 }
 
-function Header({ authorizationStatus, login, logout }: PropsFromRedux): JSX.Element {
+function Header({ authorizationStatus, user, logout }: PropsFromRedux): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -59,7 +60,7 @@ function Header({ authorizationStatus, login, logout }: PropsFromRedux): JSX.Ele
               <li className="header__nav-item user">
                 {
                   authorizationStatus === AuthorizationStatus.AUTH
-                    ? <User login={login} />
+                    ? <User user={user} />
                     : <Guest />
                 }
               </li>
