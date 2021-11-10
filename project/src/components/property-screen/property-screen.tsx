@@ -1,8 +1,6 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { AppRoute, MAX_RATING } from '../../const';
-// import { Offers } from '../../types/offers';
-import { Reviews } from '../../types/reviews';
+import { AppRoute, AuthorizationStatus, MAX_RATING } from '../../const';
 import Header from '../header/header';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PlaceCard from '../place-card/place-card';
@@ -11,39 +9,66 @@ import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
-
-type PropertyScreenProps = {
-  reviews: Reviews
-}
+import { ThunkAppDispatch } from '../../types/action';
+import { store } from '../../index';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { CommentPost } from '../../types/comment';
+import { requireDataUnload } from '../../store/action';
 
 type Params = {
   id: string,
 }
 
-const mapStateToProps = ({ offers }: State) => ({
-  offers,
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onReviewSubmit(review: CommentPost) {
+    dispatch(fetchReviewAction(review));
+  },
 });
 
-const connector = connect(mapStateToProps);
+const mapStateToProps = ({ currentOffer, nearbyOffers, comments, authorizationStatus, isDataLoaded }: State) => ({
+  currentOffer,
+  nearbyOffers,
+  comments,
+  authorizationStatus,
+  isDataLoaded,
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PropertyScreenProps;
 
-function PropertyScreen({ offers, reviews }: ConnectedComponentProps): JSX.Element {
+function PropertyScreen({ currentOffer, nearbyOffers, comments, authorizationStatus, isDataLoaded, onReviewSubmit }: PropsFromRedux): JSX.Element {
   const { id: currentId }: Params = useParams();
-  const offer = offers.find((item) => item.id === +currentId);
+  const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
 
-  const nearbyOffers = offers.filter((item) => item.id !== +currentId);
+  useEffect(() => {
+    store.dispatch(requireDataUnload());
+    (store.dispatch as ThunkAppDispatch)(fetchCurrentOfferAction(+currentId))
+      .then(() => {
+        (store.dispatch as ThunkAppDispatch)(fetchNearbyOffersAction(+currentId));
+        (store.dispatch as ThunkAppDispatch)(fetchCommentsAction());
+      });
+  }, [currentId]);
 
-  const filteredReviews = reviews ? reviews.filter(({ objectId }) => objectId === +currentId) : [];
 
-  if (!offer) {
+  if (!isDataLoaded) {
+    return <LoadingScreen />;
+  }
+
+  if (!('id' in currentOffer)) {
     return <NotFoundScreen />;
   }
 
-  const city = offer.city;
-  const points = offers.map(({ id, location }) => ({ id, location }));
-  const selectedPoint = points.find((point) => point.id === +currentId);
+
+  const city = currentOffer.city;
+  const points = nearbyOffers.map(({ id, location }) => ({ id, location }));
+  const currentPoint = {
+    id: currentOffer.id,
+    location: currentOffer.location,
+  };
+  points.push(currentPoint);
+  const selectedPoint = currentPoint;
 
   const {
     bedrooms,
@@ -58,7 +83,8 @@ function PropertyScreen({ offers, reviews }: ConnectedComponentProps): JSX.Eleme
     rating,
     title,
     type,
-  } = offer;
+  } = currentOffer;
+
 
   const ratingRounded = Math.round(rating);
 
@@ -156,15 +182,16 @@ function PropertyScreen({ offers, reviews }: ConnectedComponentProps): JSX.Eleme
               </div>
               <section className="property__reviews reviews">
                 {
-                  filteredReviews[0] &&
+                  comments[0] &&
                   <Fragment>
-                    <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{filteredReviews.length}</span></h2>
+                    <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
 
-                    <ReviewsList reviews={filteredReviews}></ReviewsList>
+                    <ReviewsList reviews={comments}></ReviewsList>
                   </Fragment>
                 }
                 {
-                  <ReviewForm />
+                  isAuthorized &&
+                  <ReviewForm onFormSubmit={onReviewSubmit} />
                 }
               </section>
             </div>

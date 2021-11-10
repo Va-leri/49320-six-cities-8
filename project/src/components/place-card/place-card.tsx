@@ -9,8 +9,7 @@ type PlaceCardProps = {
   onPlaceCardHover?: (id: number) => void;
 };
 
-function PlaceCard(props: PlaceCardProps): JSX.Element {
-  const { offer, screen, onPlaceCardHover } = props;
+function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Element {
 
   function placeCardHoverHandler(evt: MouseEvent<HTMLElement>) {
     if (!onPlaceCardHover) {
@@ -70,9 +69,9 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
       }
 
       <div className={`${getImageWrapperClassName(screen)} place-card__image-wrapper`}>
-        <a href="/">
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
-        </a>
+        </Link>
       </div>
       <div className={`${isFavorite ? 'favorites__card-info ' : ''} place-card__info`}>
         <div className="place-card__price-wrapper">

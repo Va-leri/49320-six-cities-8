@@ -13,9 +13,9 @@ import { ThunkAppDispatch } from './types/action';
 import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 import { redirect } from './store/middlewares/redirect';
 
-const api = createAPI(() => store.dispatch(requireLogout()));
+export const api = createAPI(() => store.dispatch(requireLogout()));
 
-const store = createStore(
+export const store = createStore(
   reducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),

@@ -17,6 +17,7 @@ function useMap(
           lng: city.location.longitude,
         },
         zoom: city.location.zoom,
+        scrollWheelZoom: false,
       });
 
       leaflet

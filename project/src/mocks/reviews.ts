@@ -1,11 +1,11 @@
 import { Reviews } from '../types/reviews';
 import { generateDescription } from '../utils';
-import { Ids } from './offer-ids';
+// import { Ids } from './offer-ids';
 import { users } from './users';
 
 export const reviews: Reviews = [
   {
-    objectId: Ids[1],
+    // objectId: Ids[1],
     comment: generateDescription(),
     date: new Date(),
     id: 0,
@@ -13,7 +13,7 @@ export const reviews: Reviews = [
     user: users[0],
   },
   {
-    objectId: Ids[2],
+    // objectId: Ids[2],
     comment: generateDescription(),
     date: new Date(),
     id: 1,
@@ -21,7 +21,7 @@ export const reviews: Reviews = [
     user: users[1],
   },
   {
-    objectId: Ids[1],
+    // objectId: Ids[1],
     comment: generateDescription(),
     date: new Date(),
     id: 2,
@@ -29,7 +29,7 @@ export const reviews: Reviews = [
     user: users[2],
   },
   {
-    objectId: Ids[1],
+    // objectId: Ids[1],
     comment: generateDescription(),
     date: new Date(),
     id: 3,
@@ -37,7 +37,7 @@ export const reviews: Reviews = [
     user: users[1],
   },
   {
-    objectId: Ids[2],
+    // objectId: Ids[2],
     comment: generateDescription(),
     date: new Date(),
     id: 4,
@@ -45,7 +45,7 @@ export const reviews: Reviews = [
     user: users[3],
   },
   {
-    objectId: Ids[2],
+    // objectId: Ids[2],
     comment: generateDescription(),
     date: new Date(),
     id: 5,
@@ -53,7 +53,7 @@ export const reviews: Reviews = [
     user: users[2],
   },
   {
-    objectId: Ids[2],
+    // objectId: Ids[2],
     comment: generateDescription(),
     date: new Date(),
     id: 6,
@@ -61,7 +61,7 @@ export const reviews: Reviews = [
     user: users[1],
   },
   {
-    objectId: Ids[3],
+    // objectId: Ids[3],
     comment: generateDescription(),
     date: new Date(),
     id: 7,
@@ -69,7 +69,7 @@ export const reviews: Reviews = [
     user: users[0],
   },
   {
-    objectId: Ids[3],
+    // objectId: Ids[3],
     comment: generateDescription(),
     date: new Date(),
     id: 8,
@@ -77,7 +77,7 @@ export const reviews: Reviews = [
     user: users[3],
   },
   {
-    objectId: Ids[3],
+    // objectId: Ids[3],
     comment: generateDescription(),
     date: new Date(),
     id: 9,

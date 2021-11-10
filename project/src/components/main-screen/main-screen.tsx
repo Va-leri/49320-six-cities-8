@@ -10,22 +10,23 @@ import { changeCity } from '../../store/action';
 import { State } from '../../types/state';
 import NoPlaces from '../no-places/no-plases';
 import Places from '../places/places';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   onCityClick: changeCity,
 }, dispatch);
 
-const mapStateToProps = ({ city, offers }: State) => ({
+const mapStateToProps = ({ city, offers, isDataLoaded }: State) => ({
   city,
   offers,
+  isDataLoaded,
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function MainScreen(props: PropsFromRedux): JSX.Element {
-  const { offers, city: cityName, onCityClick } = props;
+function MainScreen({ offers, city: cityName, isDataLoaded, onCityClick }: PropsFromRedux): JSX.Element {
   const filteredOffers = offers.filter((offer) => offer.city.name === cityName);
 
   const areFilteredOffers = Boolean(filteredOffers.length);
@@ -42,6 +43,10 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
       setSelectedPoint(currentPoint);
     }
   };
+
+  if (!isDataLoaded) {
+    return <LoadingScreen />;
+  }
 
 
   return (
