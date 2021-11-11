@@ -1,9 +1,8 @@
-import { Reviews } from '../types/reviews';
+import { CommentsGet } from '../types/comment';
 import { generateDescription } from '../utils';
-// import { Ids } from './offer-ids';
 import { users } from './users';
 
-export const reviews: Reviews = [
+export const reviews: CommentsGet = [
   {
     // objectId: Ids[1],
     comment: generateDescription(),

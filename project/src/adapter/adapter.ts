@@ -1,7 +1,7 @@
 import { AuthInfo } from '../types/auth-info';
+import { CommentGet } from '../types/comment';
 import { AuthInfoFromServer, CommentFromServer, OfferFromServer, OffersFromServer, UserFromServer } from '../types/data-from-server';
 import { Offer, Offers } from '../types/offers';
-import { Review } from '../types/reviews';
 import { User } from '../types/user';
 
 export const adaptUserToClient = (userFromServer: UserFromServer): User => ({
@@ -23,7 +23,7 @@ export const adaptOffersToClient = (offers: OffersFromServer): Offers => (
   offers.map((offer) => adaptOfferToClient(offer))
 );
 
-export const adaptCommentToClient = (comment: CommentFromServer): Review => ({
+export const adaptCommentToClient = (comment: CommentFromServer): CommentGet => ({
   ...comment,
   user: adaptUserToClient(comment.user),
   date: new Date(comment.date),

@@ -15,6 +15,8 @@ import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, 
 import LoadingScreen from '../loading-screen/loading-screen';
 import { CommentPost } from '../../types/comment';
 import { requireDataUnload } from '../../store/action';
+import { getCurrentOffer, getNearbyOffers, getComments, getIsDataLoaded } from '../../store/service-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-data/services';
 
 type Params = {
   id: string,
@@ -26,12 +28,12 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   },
 });
 
-const mapStateToProps = ({ currentOffer, nearbyOffers, comments, authorizationStatus, isDataLoaded }: State) => ({
-  currentOffer,
-  nearbyOffers,
-  comments,
-  authorizationStatus,
-  isDataLoaded,
+const mapStateToProps = (state: State) => ({
+  currentOffer: getCurrentOffer(state),
+  nearbyOffers: getNearbyOffers(state),
+  comments: getComments(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  isDataLoaded: getIsDataLoaded(state),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -44,10 +46,10 @@ function PropertyScreen({ currentOffer, nearbyOffers, comments, authorizationSta
 
   useEffect(() => {
     store.dispatch(requireDataUnload());
-    (store.dispatch as ThunkAppDispatch)(fetchCurrentOfferAction(+currentId))
+    store.dispatch(fetchCurrentOfferAction(+currentId))
       .then(() => {
-        (store.dispatch as ThunkAppDispatch)(fetchNearbyOffersAction(+currentId));
-        (store.dispatch as ThunkAppDispatch)(fetchCommentsAction());
+        store.dispatch(fetchNearbyOffersAction(+currentId));
+        store.dispatch(fetchCommentsAction());
       });
   }, [currentId]);
 

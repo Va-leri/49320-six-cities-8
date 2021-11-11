@@ -1,16 +1,26 @@
 import { AuthorizationStatus, SortingType } from '../const';
+import { RootState } from '../store/root-reducer';
 import { AuthInfo } from './auth-info';
+import { CommentsGet } from './comment';
 import { Offer, Offers } from './offers';
-import { Reviews } from './reviews';
 
-export type State = {
-  city: string,
-  offers: Offers | [],
-  currentOffer: Offer | Record<string, never>,
-  nearbyOffers: Offers | [],
-  comments: Reviews | [],
-  sorting: SortingType,
+export type UserData = {
   authorizationStatus: AuthorizationStatus,
-  user: AuthInfo | Record<string, never>,
+  user: AuthInfo,
+}
+
+export type ServiceData = {
+  offers: Offers,
+  currentOffer: Offer,
+  nearbyOffers: Offers,
+  comments: CommentsGet,
   isDataLoaded: boolean,
 }
+
+export type ServiceProcess = {
+  city: string,
+  sorting: SortingType,
+}
+
+
+export type State = RootState;

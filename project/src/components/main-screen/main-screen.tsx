@@ -11,15 +11,17 @@ import { State } from '../../types/state';
 import NoPlaces from '../no-places/no-plases';
 import Places from '../places/places';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { getCity } from '../../store/service-process/selectors';
+import { getIsDataLoaded, getOffers } from '../../store/service-data/selectors';
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   onCityClick: changeCity,
 }, dispatch);
 
-const mapStateToProps = ({ city, offers, isDataLoaded }: State) => ({
-  city,
-  offers,
-  isDataLoaded,
+const mapStateToProps = (state: State) => ({
+  city: getCity(state),
+  offers: getOffers(state),
+  isDataLoaded: getIsDataLoaded(state),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
