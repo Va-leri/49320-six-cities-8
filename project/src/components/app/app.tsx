@@ -6,19 +6,20 @@ import FavoritesScreen from '../favorites-screen/favorites-screen';
 import PropertyScreen from '../property-screen/property-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import { Reviews } from '../../types/reviews';
 import { State } from '../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
-// import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../browser-history';
+import { CommentsGet } from '../../types/comment';
+import { getIsDataLoaded } from '../../store/service-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-data/services';
 
 type AppScreenProps = {
-  reviews: Reviews
+  reviews: CommentsGet,
 }
 
-const mapStateToProps = ({ isDataLoaded, authorizationStatus }: State) => ({
-  isDataLoaded,
-  authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  isDataLoaded: getIsDataLoaded(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const connector = connect(mapStateToProps);

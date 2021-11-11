@@ -1,5 +1,6 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { AppRoute } from '../../const';
+import { getSorting } from '../../store/service-process/selectors';
 import { Offers, Point } from '../../types/offers';
 import { State } from '../../types/state';
 import PlacesList from '../places-list/places-list';
@@ -12,8 +13,8 @@ type PlacesProps = {
   onListItemHover: (id: number) => void,
 }
 
-const mapStateToProps = ({ sorting }: State) => ({
-  sorting,
+const mapStateToProps = (state: State) => ({
+  sorting: getSorting(state),
 });
 
 const connector = connect(mapStateToProps);

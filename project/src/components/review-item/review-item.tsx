@@ -1,9 +1,9 @@
-import { Review } from '../../types/reviews';
 import { MAX_RATING } from '../../const';
 import { DateFormat, humanizeDate } from '../../utils/common';
+import { CommentGet } from '../../types/comment';
 
 type ReviewProps = {
-  review: Review,
+  review: CommentGet,
 }
 
 function ReviewItem({ review }: ReviewProps): JSX.Element {

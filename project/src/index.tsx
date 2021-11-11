@@ -1,30 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './components/app/app';
 import { reviews } from './mocks/reviews';
-import { reducer } from './store/reducer';
 import { createAPI } from './services/api';
 import { requireLogout } from './store/action';
-import { ThunkAppDispatch } from './types/action';
 import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 import { redirect } from './store/middlewares/redirect';
+import { rootReducer } from './store/root-reducer';
+import { configureStore } from '@reduxjs/toolkit';
 
 export const api = createAPI(() => store.dispatch(requireLogout()));
 
-export const store = createStore(
-  reducer,
-  composeWithDevTools(
-    applyMiddleware(thunk.withExtraArgument(api)),
-    applyMiddleware(redirect),
-  ),
-);
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }).concat(redirect),
 
-(store.dispatch as ThunkAppDispatch)(checkAuthAction());
-(store.dispatch as ThunkAppDispatch)(fetchOffersAction());
+});
+
+store.dispatch(checkAuthAction());
+store.dispatch(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>

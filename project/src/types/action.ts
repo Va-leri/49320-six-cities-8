@@ -4,8 +4,9 @@ import { State } from './state';
 import { AxiosInstance } from 'axios';
 
 export enum ActionType {
-  ChangeCity = 'changeCity',
-  ChangeSorting = 'changeSorting',
+  ChangeCity = 'service/changeCity',
+  ChangeSorting = 'service/changeSorting',
+  RedirectToRout = 'service/redirectToRout',
   LoadOffers = 'data/loadOffers',
   LoadNearbyOffers = 'data/loadNearbyOffers',
   LoadComments = 'data/loadComments',
@@ -14,7 +15,6 @@ export enum ActionType {
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
   SetUserAuthInfo = 'user/setUserAuthInfo',
-  RedirectToRout = 'redirectToRout',
 }
 
 export type Actions =

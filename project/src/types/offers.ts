@@ -28,7 +28,7 @@ export type Offer = {
   rating: number,
   title: string,
   type: string,
-};
+} | Record<string, never>;
 
 export type Point = Pick<Offer, 'id' | 'location'>;
 

@@ -1,6 +1,7 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { getOffers } from '../../store/service-data/selectors';
 import { Offers } from '../../types/offers';
 import { State } from '../../types/state';
 import { getUniqueItems } from '../../utils';
@@ -12,8 +13,8 @@ type LocationItemProps = {
   offers: Offers,
 };
 
-const mapStateToProps = ({ offers }: State) => ({
-  offers,
+const mapStateToProps = (state: State) => ({
+  offers: getOffers(state),
 });
 
 const connector = connect(mapStateToProps);
