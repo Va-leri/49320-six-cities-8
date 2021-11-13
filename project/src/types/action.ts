@@ -1,4 +1,4 @@
-import { changeCity, loadComments, loadCurrentOffer, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireDataUnload, requireLogout, setUserAuthInfo, updateSorting } from '../store/action';
+import { changeCity, loadComments, loadCurrentOffer, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireDataUnload, requireLogout, setUserAuthInfo, changeSorting } from '../store/action';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { State } from './state';
 import { AxiosInstance } from 'axios';
@@ -19,7 +19,7 @@ export enum ActionType {
 
 export type Actions =
   | ReturnType<typeof changeCity>
-  | ReturnType<typeof updateSorting>
+  | ReturnType<typeof changeSorting>
   | ReturnType<typeof loadOffers>
   | ReturnType<typeof loadNearbyOffers>
   | ReturnType<typeof loadComments>

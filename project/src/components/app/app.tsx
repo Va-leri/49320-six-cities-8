@@ -6,32 +6,9 @@ import FavoritesScreen from '../favorites-screen/favorites-screen';
 import PropertyScreen from '../property-screen/property-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import { State } from '../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
 import browserHistory from '../../browser-history';
-import { CommentsGet } from '../../types/comment';
-import { getIsDataLoaded } from '../../store/service-data/selectors';
-import { getAuthorizationStatus } from '../../store/user-data/services';
 
-type AppScreenProps = {
-  reviews: CommentsGet,
-}
-
-const mapStateToProps = (state: State) => ({
-  isDataLoaded: getIsDataLoaded(state),
-  authorizationStatus: getAuthorizationStatus(state),
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
-
-function App({ reviews }: ConnectedComponentProps): JSX.Element {
-  /* if (!isDataLoaded) {
-    return <LoadingScreen />;
-  } */
-
+function App(): JSX.Element {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -58,5 +35,4 @@ function App({ reviews }: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export { App };
-export default connector(App);
+export default App;

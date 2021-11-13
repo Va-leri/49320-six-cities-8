@@ -22,8 +22,8 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function LocationItem({ city, offers }: LocationItemProps): JSX.Element {
-  return (
 
+  return (
     <li className="favorites__locations-items" >
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
@@ -49,7 +49,6 @@ function FavoritesScreen({ offers }: PropsFromRedux): JSX.Element {
   const citiesUnique = getUniqueItems(cities);
 
   return (
-
     <div className="page">
       <Header />
 

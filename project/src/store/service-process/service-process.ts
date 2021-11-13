@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CITIES, SortingType } from '../../const';
 import { ServiceProcess } from '../../types/state';
-import { changeCity, updateSorting } from '../action';
+import { changeCity, changeSorting } from '../action';
 
 const initialState: ServiceProcess = {
   city: CITIES[0],
@@ -13,7 +13,7 @@ const serviceProcess = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(updateSorting, (state, action) => {
+    .addCase(changeSorting, (state, action) => {
       state.sorting = action.payload;
     });
 });

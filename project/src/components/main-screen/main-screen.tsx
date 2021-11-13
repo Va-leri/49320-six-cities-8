@@ -1,50 +1,31 @@
-import { AppRoute } from '../../const';
-import { Point } from '../../types/offers';
 import Header from '../header/header';
-import Map from '../map/map';
-import { useState } from 'react';
 import LocationsList from '../locations-list/locations-list';
-import { connect, ConnectedProps } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeCity } from '../../store/action';
-import { State } from '../../types/state';
-import NoPlaces from '../no-places/no-plases';
-import Places from '../places/places';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { getCity } from '../../store/service-process/selectors';
 import { getIsDataLoaded, getOffers } from '../../store/service-data/selectors';
+import Cities from '../cities/cities';
+import { useMemo } from 'react';
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-  onCityClick: changeCity,
-}, dispatch);
 
-const mapStateToProps = (state: State) => ({
-  city: getCity(state),
-  offers: getOffers(state),
-  isDataLoaded: getIsDataLoaded(state),
-});
+function MainScreen(): JSX.Element {
+  const offers = useSelector(getOffers);
+  const cityName = useSelector(getCity);
+  const isDataLoaded = useSelector(getIsDataLoaded);
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+  const dispatch = useDispatch();
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
+  const onCityClick = (city: string) => {
+    dispatch(changeCity(city));
+  };
 
-function MainScreen({ offers, city: cityName, isDataLoaded, onCityClick }: PropsFromRedux): JSX.Element {
-  const filteredOffers = offers.filter((offer) => offer.city.name === cityName);
+  const filteredOffers = useMemo(() => offers.filter((offer) => {
+    console.log('filtered offers');
+    return offer.city.name === cityName;
+  }), [cityName, offers]);
 
   const areFilteredOffers = Boolean(filteredOffers.length);
-
-  const city = areFilteredOffers ? filteredOffers[0].city : undefined;
-  const points = areFilteredOffers ? filteredOffers.map(({ id, location }) => ({ id, location })) : [];
-
-  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
-
-  const onListItemHover = (id: number) => {
-    const currentPoint = points.find((point) => point.id === id);
-
-    if (currentPoint) {
-      setSelectedPoint(currentPoint);
-    }
-  };
 
   if (!isDataLoaded) {
     return <LoadingScreen />;
@@ -62,23 +43,10 @@ function MainScreen({ offers, city: cityName, isDataLoaded, onCityClick }: Props
             <LocationsList onCityClick={onCityClick} activeCity={cityName}></LocationsList>
           </section>
         </div>
-        <div className="cities">
-          <div className={`cities__places-container container ${!areFilteredOffers ? 'cities__places-container--empty' : ''}`}>
-
-            {areFilteredOffers
-              ? <Places points={points} cityName={cityName} filteredOffers={filteredOffers} onListItemHover={onListItemHover} />
-              : <NoPlaces cityName={cityName} />}
-
-            <div className="cities__right-section">
-              {city &&
-                <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.MAIN}></Map>}
-            </div>
-          </div>
-        </div>
+        <Cities areFilteredOffers={areFilteredOffers} filteredOffers={filteredOffers} cityName={cityName} />
       </main>
     </div>
   );
 }
 
-export { MainScreen };
-export default connector(MainScreen);
+export default MainScreen;

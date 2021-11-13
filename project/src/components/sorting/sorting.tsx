@@ -1,24 +1,16 @@
 import { useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
 import { SortingType } from '../../const';
-import { updateSorting } from '../../store/action';
+import { changeSorting } from '../../store/action';
 
 type SortingProps = {
   sortingType: SortingType,
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-  changeSorting: updateSorting,
-}, dispatch);
 
-const connector = connect(null, mapDispatchToProps);
+function Sorting({ sortingType }: SortingProps): JSX.Element {
+  const dispatch = useDispatch();
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & SortingProps;
-
-
-function Sorting({ sortingType, changeSorting }: ConnectedComponentProps): JSX.Element {
   const [isOptionsListOpened, setOptionsListState] = useState<boolean>(false);
 
   const onCurrentSortTypeClick = () => {
@@ -26,7 +18,7 @@ function Sorting({ sortingType, changeSorting }: ConnectedComponentProps): JSX.E
   };
 
   const onSortingTypeClick = (value: SortingType) => {
-    changeSorting(value);
+    dispatch(changeSorting(value));
     setOptionsListState(false);
   };
 
@@ -48,5 +40,4 @@ function Sorting({ sortingType, changeSorting }: ConnectedComponentProps): JSX.E
   );
 }
 
-export { Sorting };
-export default connector(Sorting);
+export default Sorting;
