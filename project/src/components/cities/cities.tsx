@@ -12,17 +12,13 @@ type CitiesProps = {
 }
 
 function Cities({ areFilteredOffers, filteredOffers, cityName }: CitiesProps): JSX.Element {
-  const points = useMemo(() => {
-    console.log('points');
-    return areFilteredOffers ? filteredOffers.map(({ id, location }) => ({ id, location })) : [];
-  }, [areFilteredOffers, filteredOffers]);
+  const points = useMemo(() => areFilteredOffers ? filteredOffers.map(({ id, location }) => ({ id, location })) : [], [areFilteredOffers, filteredOffers]);
   const city = areFilteredOffers ? filteredOffers[0].city : undefined;
 
 
   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
 
   const onListItemHover = useCallback((id: number) => {
-    console.log('on list item hover');
     const currentPoint = points.find((point) => point.id === id);
 
     if (currentPoint) {

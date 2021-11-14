@@ -2,6 +2,8 @@ import { AppRoute, MAX_RATING } from '../../const';
 import { Offer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { MouseEvent } from 'react';
+import { fetchFavoriteAction } from '../../store/api-actions';
+import { useDispatch } from 'react-redux';
 
 type PlaceCardProps = {
   offer: Offer,
@@ -10,6 +12,7 @@ type PlaceCardProps = {
 };
 
 function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Element {
+  const dispatch = useDispatch();
 
   function placeCardHoverHandler(evt: MouseEvent<HTMLElement>) {
     if (!onPlaceCardHover) {
@@ -58,6 +61,10 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
     }
   }
 
+  const onBookmarkBtnClick = () => {
+    dispatch(fetchFavoriteAction(id, isFavorite));
+  };
+
   return (
     <article className={`${getCardClassName(screen)} place-card`} id={id.toString()} onMouseEnter={placeCardHoverHandler}>
       {
@@ -79,7 +86,7 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`} type="button">
+          <button className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`} type="button" onClick={onBookmarkBtnClick}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

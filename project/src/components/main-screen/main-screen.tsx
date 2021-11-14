@@ -20,10 +20,7 @@ function MainScreen(): JSX.Element {
     dispatch(changeCity(city));
   };
 
-  const filteredOffers = useMemo(() => offers.filter((offer) => {
-    console.log('filtered offers');
-    return offer.city.name === cityName;
-  }), [cityName, offers]);
+  const filteredOffers = useMemo(() => offers.filter((offer) => offer.city.name === cityName), [cityName, offers]);
 
   const areFilteredOffers = Boolean(filteredOffers.length);
 

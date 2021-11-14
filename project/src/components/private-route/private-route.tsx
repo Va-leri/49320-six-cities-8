@@ -22,6 +22,4 @@ function PrivateRoute({ exact, path, render }: PrivateRouteProps): JSX.Element {
   );
 }
 
-// export { PrivateRoute };
-// export default connector(PrivateRoute);
 export default PrivateRoute;

@@ -13,6 +13,8 @@ export const loadOffers = createAction<Offers>(ActionType.LoadOffers);
 
 export const loadCurrentOffer = createAction<Offer>(ActionType.LoadCurrentOffer);
 
+export const changeFavoriteStatus = createAction<{ id: number, isFavorite: boolean }>(ActionType.ChangeFavoriteStatus);
+
 export const loadNearbyOffers = createAction<Offers>(ActionType.LoadNearbyOffers);
 
 export const loadComments = createAction<CommentsGet>(ActionType.LoadComments);

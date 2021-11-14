@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { AppRoute } from '../../const';
 import { getSorting } from '../../store/service-process/selectors';
@@ -28,6 +29,4 @@ function Places({ points, cityName, filteredOffers, onListItemHover }: PlacesPro
   );
 }
 
-// export { Places };
-// export default connector(Places);
-export default Places;
+export default memo(Places);
