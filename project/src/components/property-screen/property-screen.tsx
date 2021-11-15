@@ -9,7 +9,7 @@ import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../index';
-import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchFavoriteAction, fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { CommentPost } from '../../types/comment';
 import { requireDataUnload } from '../../store/action';
@@ -35,6 +35,11 @@ function PropertyScreen(): JSX.Element {
 
   const onReviewSubmit = (review: CommentPost) => {
     dispatch(fetchReviewAction(review));
+  };
+
+  const onBookmarkBtnClick = () => {
+    dispatch(fetchFavoriteAction(+currentId, isFavorite));
+    dispatch(fetchCurrentOfferAction(+currentId));
   };
 
   useEffect(() => {
@@ -111,7 +116,7 @@ function PropertyScreen(): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`} type="button">
+                <button className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`} type="button" onClick={onBookmarkBtnClick}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>

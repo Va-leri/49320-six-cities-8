@@ -1,14 +1,22 @@
 import { FormEvent, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { redirectToRout } from '../../store/action';
 import { loginAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-data/services';
 import Header from '../header/header';
 
 
 function LoginScreen(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const dispatch = useDispatch();
+
+  if (authorizationStatus === AuthorizationStatus.AUTH) {
+    dispatch(redirectToRout(AppRoute.FAVORITES));
+  }
+
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const dispatch = useDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

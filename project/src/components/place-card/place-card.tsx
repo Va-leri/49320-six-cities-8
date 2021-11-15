@@ -2,13 +2,54 @@ import { AppRoute, MAX_RATING } from '../../const';
 import { Offer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { MouseEvent } from 'react';
-import { fetchFavoriteAction } from '../../store/api-actions';
+import { fetchFavoriteAction, fetchFavoriteOffersAction, fetchNearbyOffersAction } from '../../store/api-actions';
 import { useDispatch } from 'react-redux';
 
 type PlaceCardProps = {
   offer: Offer,
   screen: string,
   onPlaceCardHover?: (id: number) => void;
+};
+
+const getCardClassName = (path: string) => {
+  switch (path) {
+    case AppRoute.MAIN:
+      return 'cities__place-card';
+    case AppRoute.FAVORITES:
+      return 'favorites__card';
+    case AppRoute.ROOM:
+      return 'near-places__card';
+    default:
+      return '';
+  }
+};
+
+const getImageWrapperClassName = (path: string) => {
+  switch (path) {
+    case AppRoute.MAIN:
+      return 'cities__image-wrapper';
+    case AppRoute.FAVORITES:
+      return 'favorites__image-wrapper';
+    case AppRoute.ROOM:
+      return 'near-places__image-wrapper';
+    default:
+      return '';
+  }
+};
+
+const getImageSize = (path: string) => {
+  switch (path) {
+    case AppRoute.FAVORITES:
+      return {
+        width: 150,
+        height: 110,
+      };
+    default:
+      return {
+        width: 260,
+        height: 200,
+      };
+  }
 };
 
 function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Element {
@@ -35,34 +76,14 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
 
   const ratingRounded = Math.round(rating);
 
-  function getCardClassName(path: string) {
-    switch (path) {
-      case AppRoute.MAIN:
-        return 'cities__place-card';
-      case AppRoute.FAVORITES:
-        return 'favorites__card';
-      case AppRoute.ROOM:
-        return 'near-places__card';
-      default:
-        return '';
-    }
-  }
-
-  function getImageWrapperClassName(path: string) {
-    switch (path) {
-      case AppRoute.MAIN:
-        return 'cities__image-wrapper';
-      case AppRoute.FAVORITES:
-        return 'favorites__image-wrapper';
-      case AppRoute.ROOM:
-        return 'near-places__image-wrapper';
-      default:
-        return '';
-    }
-  }
+  const imageSizes = getImageSize(screen);
 
   const onBookmarkBtnClick = () => {
     dispatch(fetchFavoriteAction(id, isFavorite));
+    dispatch(fetchFavoriteOffersAction());
+    if (screen === AppRoute.ROOM) {
+      dispatch(fetchNearbyOffersAction(id));
+    }
   };
 
   return (
@@ -77,7 +98,7 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
 
       <div className={`${getImageWrapperClassName(screen)} place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={previewImage} width={imageSizes.width} height={imageSizes.height} alt="Place image" />
         </Link>
       </div>
       <div className={`${isFavorite ? 'favorites__card-info ' : ''} place-card__info`}>

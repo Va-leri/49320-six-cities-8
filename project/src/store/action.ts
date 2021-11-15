@@ -11,6 +11,8 @@ export const changeSorting = createAction<SortingType>(ActionType.ChangeSorting)
 
 export const loadOffers = createAction<Offers>(ActionType.LoadOffers);
 
+export const loadFavoriteOffers = createAction<Offers>(ActionType.LoadFavoriteOffers);
+
 export const loadCurrentOffer = createAction<Offer>(ActionType.LoadCurrentOffer);
 
 export const changeFavoriteStatus = createAction<{ id: number, isFavorite: boolean }>(ActionType.ChangeFavoriteStatus);

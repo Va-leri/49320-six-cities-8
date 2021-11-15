@@ -7,6 +7,8 @@ export const getOffers = (state: State): Offers => state[NameSpace.data].offers;
 
 export const getCurrentOffer = (state: State): Offer => state[NameSpace.data].currentOffer;
 
+export const getFavoriteOffers = (state: State): Offers => state[NameSpace.data].favoriteOffers;
+
 export const getNearbyOffers = (state: State): Offers => state[NameSpace.data].nearbyOffers;
 
 export const getComments = (state: State): CommentsGet => state[NameSpace.data].comments;

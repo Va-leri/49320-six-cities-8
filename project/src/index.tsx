@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
-// import { reviews } from './mocks/reviews';
 import { createAPI } from './services/api';
 import { requireLogout } from './store/action';
 import { checkAuthAction, fetchOffersAction } from './store/api-actions';

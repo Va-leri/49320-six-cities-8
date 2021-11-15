@@ -3,6 +3,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { State } from './state';
 import { AxiosInstance } from 'axios';
 
+
 export enum ActionType {
   ChangeCity = 'service/changeCity',
   ChangeSorting = 'service/changeSorting',
@@ -11,6 +12,7 @@ export enum ActionType {
   LoadNearbyOffers = 'data/loadNearbyOffers',
   LoadComments = 'data/loadComments',
   LoadCurrentOffer = 'data/loadCurrentOffer',
+  LoadFavoriteOffers = 'data/loadFavoriteOffers',
   ChangeFavoriteStatus = 'data/changeFavoriteStatus',
   RequireDataUnload = 'data/requireDataUnload',
   RequireAuthorization = 'user/requireAuthorization',

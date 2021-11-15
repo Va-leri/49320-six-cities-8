@@ -1,7 +1,7 @@
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { AuthInfoFromServer, CommentsFromServer, OfferFromServer, OffersFromServer } from '../types/data-from-server';
-import { changeCity, loadCurrentOffer, loadComments, redirectToRout, requireAuthorization, requireLogout, loadOffers, loadNearbyOffers, setUserAuthInfo, changeFavoriteStatus } from './action';
+import { changeCity, loadCurrentOffer, loadComments, redirectToRout, requireAuthorization, requireLogout, loadOffers, loadNearbyOffers, setUserAuthInfo, changeFavoriteStatus, loadFavoriteOffers } from './action';
 import { AuthData } from '../types/auth-data';
 import { dropToken, saveToken } from '../services/token';
 import { adaptAuthInfoToClient, adaptCommentToClient, adaptOffersToClient, adaptOfferToClient } from '../adapter/adapter';
@@ -25,6 +25,11 @@ export const fetchCurrentOfferAction = (id: number): ThunkActionResult => async 
     .catch(() => {
       dispatch(loadCurrentOffer({}));
     });
+};
+
+export const fetchFavoriteOffersAction = (): ThunkActionResult => async (dispatch, _getState, api): Promise<void> => {
+  const { data } = await api.get<OffersFromServer>(APIRoute.FAVORITES);
+  dispatch(loadFavoriteOffers(adaptOffersToClient(data)));
 };
 
 export const fetchNearbyOffersAction = (id: number): ThunkActionResult => async (dispatch, _getState, api): Promise<void> => {

@@ -11,6 +11,7 @@ export type UserData = {
 
 export type ServiceData = {
   offers: Offers,
+  favoriteOffers: Offers,
   currentOffer: Offer,
   nearbyOffers: Offers,
   comments: CommentsGet,
