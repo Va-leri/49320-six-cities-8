@@ -1,11 +1,8 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, CITIES } from '../../const';
-import { changeCity } from '../../store/action';
-// import { ChangeCityAction } from '../../types/action';
-// import { City } from '../../types/offers';
 
 type LocationsListProps = {
-  onCityClick: (city: string) => ReturnType<typeof changeCity>,
+  onCityClick: (city: string) => void,
   activeCity: string,
 }
 

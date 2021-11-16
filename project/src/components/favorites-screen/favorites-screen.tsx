@@ -1,11 +1,14 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { getOffers } from '../../store/service-data/selectors';
+import { requireDataUnload } from '../../store/action';
+import { fetchFavoriteOffersAction } from '../../store/api-actions';
+import { getFavoriteOffers, getIsDataLoaded } from '../../store/service-data/selectors';
 import { Offers } from '../../types/offers';
-import { State } from '../../types/state';
 import { getUniqueItems } from '../../utils';
 import Header from '../header/header';
+import LoadingScreen from '../loading-screen/loading-screen';
 import PlaceCard from '../place-card/place-card';
 
 type LocationItemProps = {
@@ -13,17 +16,10 @@ type LocationItemProps = {
   offers: Offers,
 };
 
-const mapStateToProps = (state: State) => ({
-  offers: getOffers(state),
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function LocationItem({ city, offers }: LocationItemProps): JSX.Element {
-  return (
 
+  return (
     <li className="favorites__locations-items" >
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
@@ -34,7 +30,7 @@ function LocationItem({ city, offers }: LocationItemProps): JSX.Element {
       </div>
       <div className="favorites__places">
         {
-          offers.slice().filter((offer) => offer.city.name === city && offer.isFavorite).map((offer) =>
+          offers.slice().filter((offer) => offer.city.name).map((offer) =>
             <PlaceCard offer={offer} key={offer.id} screen={AppRoute.FAVORITES} />)
         }
       </div>
@@ -42,26 +38,54 @@ function LocationItem({ city, offers }: LocationItemProps): JSX.Element {
   );
 }
 
-function FavoritesScreen({ offers }: PropsFromRedux): JSX.Element {
-  const favoriteOffers = offers.slice().filter(({ isFavorite }) => isFavorite);
+function FavoritesScreen(): JSX.Element {
+  const dispatch = useDispatch();
 
-  const cities = favoriteOffers.map(({ city }) => city.name);
-  const citiesUnique = getUniqueItems(cities);
+  const isDataLoaded = useSelector(getIsDataLoaded);
+  const favoriteOffers = useSelector(getFavoriteOffers);
+  const areFavorites = Boolean(favoriteOffers.length);
+
+
+  const cities = areFavorites ? favoriteOffers.map(({ city }) => city.name) : [];
+  const citiesUnique = areFavorites ? getUniqueItems(cities) : [];
+
+  useEffect(() => {
+    dispatch(requireDataUnload());
+    dispatch(fetchFavoriteOffersAction());
+  }, []);
+
+
+  if (!isDataLoaded) {
+    return <LoadingScreen />;
+  }
 
   return (
-
-    <div className="page">
+    <div className={`page ${!areFavorites ? 'page--favorites-empty' : ''}`}>
       <Header />
 
-      <main className="page__main page__main--favorites">
+      <main className={`page__main page__main--favorites ${!areFavorites ? 'page__main--favorites-empty' : ''}`}>
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
+          <section className={`favorites ${!areFavorites ? 'favorites--empty' : ''}`}>
+            {
+              areFavorites ?
+                <h1 className="favorites__title">Saved listing</h1> :
+                <h1 className="visually-hidden">Favorites (empty)</h1>
+            }
+            {
+              areFavorites &&
+              <ul className="favorites__list">
 
-              {citiesUnique.map((city) => <LocationItem city={city} offers={offers} key={city} />)}
+                {citiesUnique.map((city) => <LocationItem city={city} offers={favoriteOffers} key={city} />)}
 
-            </ul>
+              </ul>
+            }
+            {
+              !areFavorites &&
+              <div className="favorites__status-wrapper">
+                <b className="favorites__status">Nothing yet saved.</b>
+                <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+              </div>
+            }
           </section>
         </div>
       </main>
@@ -74,5 +98,4 @@ function FavoritesScreen({ offers }: PropsFromRedux): JSX.Element {
   );
 }
 
-export { FavoritesScreen };
-export default connector(FavoritesScreen);
+export default FavoritesScreen;

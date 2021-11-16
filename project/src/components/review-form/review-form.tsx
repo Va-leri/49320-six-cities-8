@@ -12,6 +12,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
     comment: '',
   };
   const [review, setReview] = useState(initialState);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -34,6 +35,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
                 const value = parseInt(evt.target.value, 10);
 
                 setReview({ ...review, rating: value });
+                setIsDisabled(review.comment.length < 50 || value === 0);
               }}
               />
               <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
@@ -50,6 +52,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
         const value = evt.target.value;
 
         setReview({ ...review, comment: value });
+        setIsDisabled(value.length < 50 || review.rating === 0);
       }}
       >
       </textarea>
@@ -57,7 +60,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit">Submit</button>
+        <button className="reviews__submit form__submit button" disabled={isDisabled} type="submit" >Submit</button>
       </div>
     </form>
   );

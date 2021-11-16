@@ -7,11 +7,15 @@ import { Offer, Offers } from '../types/offers';
 
 export const changeCity = createAction<string>(ActionType.ChangeCity);
 
-export const updateSorting = createAction<SortingType>(ActionType.ChangeSorting);
+export const changeSorting = createAction<SortingType>(ActionType.ChangeSorting);
 
 export const loadOffers = createAction<Offers>(ActionType.LoadOffers);
 
+export const loadFavoriteOffers = createAction<Offers>(ActionType.LoadFavoriteOffers);
+
 export const loadCurrentOffer = createAction<Offer>(ActionType.LoadCurrentOffer);
+
+export const changeFavoriteStatus = createAction<{ id: number, isFavorite: boolean }>(ActionType.ChangeFavoriteStatus);
 
 export const loadNearbyOffers = createAction<Offers>(ActionType.LoadNearbyOffers);
 

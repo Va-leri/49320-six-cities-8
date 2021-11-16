@@ -1,21 +1,20 @@
 import { FormEvent, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { redirectToRout } from '../../store/action';
 import { loginAction } from '../../store/api-actions';
-import { ThunkAppDispatch } from '../../types/action';
-import { AuthData } from '../../types/auth-data';
+import { getAuthorizationStatus } from '../../store/user-data/services';
 import Header from '../header/header';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onFormSubmit(authData: AuthData) {
-    dispatch(loginAction(authData));
-  },
-});
 
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
+function LoginScreen(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const dispatch = useDispatch();
 
+  if (authorizationStatus === AuthorizationStatus.AUTH) {
+    dispatch(redirectToRout(AppRoute.FAVORITES));
+  }
 
-function LoginScreen({ onFormSubmit }: PropsFromRedux): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -28,7 +27,7 @@ function LoginScreen({ onFormSubmit }: PropsFromRedux): JSX.Element {
         password: passwordRef.current.value,
       };
 
-      onFormSubmit(authData);
+      dispatch(loginAction(authData));
     }
   };
 
@@ -65,5 +64,6 @@ function LoginScreen({ onFormSubmit }: PropsFromRedux): JSX.Element {
   );
 }
 
-export { LoginScreen };
-export default connector(LoginScreen);
+// export { LoginScreen };
+// export default connector(LoginScreen);
+export default LoginScreen;

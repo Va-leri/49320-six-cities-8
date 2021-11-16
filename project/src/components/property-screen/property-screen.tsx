@@ -7,11 +7,9 @@ import PlaceCard from '../place-card/place-card';
 import ReviewForm from '../review-form/review-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
-import { State } from '../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
-import { ThunkAppDispatch } from '../../types/action';
+import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../index';
-import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchFavoriteAction, fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { CommentPost } from '../../types/comment';
 import { requireDataUnload } from '../../store/action';
@@ -22,27 +20,27 @@ type Params = {
   id: string,
 }
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onReviewSubmit(review: CommentPost) {
-    dispatch(fetchReviewAction(review));
-  },
-});
+function PropertyScreen(): JSX.Element {
+  const dispatch = useDispatch();
 
-const mapStateToProps = (state: State) => ({
-  currentOffer: getCurrentOffer(state),
-  nearbyOffers: getNearbyOffers(state),
-  comments: getComments(state),
-  authorizationStatus: getAuthorizationStatus(state),
-  isDataLoaded: getIsDataLoaded(state),
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function PropertyScreen({ currentOffer, nearbyOffers, comments, authorizationStatus, isDataLoaded, onReviewSubmit }: PropsFromRedux): JSX.Element {
   const { id: currentId }: Params = useParams();
+
+  const currentOffer = useSelector(getCurrentOffer);
+  const nearbyOffers = useSelector(getNearbyOffers);
+  const comments = useSelector(getComments);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const isDataLoaded = useSelector(getIsDataLoaded);
+
   const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
+
+  const onReviewSubmit = (review: CommentPost) => {
+    dispatch(fetchReviewAction(review));
+  };
+
+  const onBookmarkBtnClick = () => {
+    dispatch(fetchFavoriteAction(+currentId, isFavorite));
+    dispatch(fetchCurrentOfferAction(+currentId));
+  };
 
   useEffect(() => {
     store.dispatch(requireDataUnload());
@@ -118,7 +116,7 @@ function PropertyScreen({ currentOffer, nearbyOffers, comments, authorizationSta
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`} type="button">
+                <button className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`} type="button" onClick={onBookmarkBtnClick}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -219,5 +217,6 @@ function PropertyScreen({ currentOffer, nearbyOffers, comments, authorizationSta
   );
 }
 
-export { PropertyScreen };
-export default connector(PropertyScreen);
+// export { PropertyScreen };
+// export default connector(PropertyScreen);
+export default PropertyScreen;
