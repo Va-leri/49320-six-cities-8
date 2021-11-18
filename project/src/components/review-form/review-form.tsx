@@ -23,7 +23,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
     <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {Array(MAX_RATING).fill('').map((item, id) => {
+        {Array(MAX_RATING).fill('').map((_item, id) => {
           const rating = MAX_RATING - id;
 
           return (
@@ -35,7 +35,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
                 const value = parseInt(evt.target.value, 10);
 
                 setReview({ ...review, rating: value });
-                setIsDisabled(review.comment.length < 50 || value === 0);
+                setIsDisabled(review.comment.length < 50 || review.comment.length > 300 || value === 0);
               }}
               />
               <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title="perfect">

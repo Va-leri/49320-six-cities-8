@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { redirectToRout } from '../../store/action';
 import { loginAction } from '../../store/api-actions';
-import { getAuthorizationStatus } from '../../store/user-data/services';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import Header from '../header/header';
 
 
@@ -46,7 +46,7 @@ function LoginScreen(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" minLength={2} pattern={'(?=.*[0-9])(?=.*[A-Za-z])([0-9A-Za-z]+)'} required />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

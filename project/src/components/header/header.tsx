@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
-import { getAuthorizationStatus, getUser } from '../../store/user-data/services';
+import { getAuthorizationStatus, getUser } from '../../store/user-data/selectors';
 import { AuthInfo } from '../../types/auth-info';
 
 type UserProps = {
