@@ -8,10 +8,58 @@ import { makeCityName, makeOffers } from '../../utils/mocks';
 import App from './app';
 
 const mockStore = configureMockStore();
-
 const history = createMemoryHistory();
 
+jest.mock('../main-screen/main-screen');
+jest.mock('../property-screen/property-screen');
+jest.mock('../favorites-screen/favorites-screen');
+
 describe('Application Routing', () => {
+  it('should render "MainScreen" when user navigate to "/"', () => {
+    history.push(AppRoute.MAIN);
+
+    render(
+      <Provider store={mockStore()}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
+
+    expect(screen.getByText(/Main screen component/i)).toBeInTheDocument();
+  });
+
+  it('should render "PropertyScreen" when user navigate to "/offer/:id"', () => {
+    history.push(AppRoute.ROOM);
+
+    render(
+      <Provider store={mockStore()}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
+
+    expect(screen.getByText(/Property screen component/i)).toBeInTheDocument();
+  });
+
+  it('should render "FavoriteScreen" when user navigate to "/favorites" and authorizationStatus is "Authorized"', () => {
+    history.push(AppRoute.FAVORITES);
+
+    const store = mockStore({
+      USER: {
+        authorizationStatus: AuthorizationStatus.AUTH,
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
+
+    expect(screen.getByText(/Favorite screen component/i)).toBeInTheDocument();
+  });
+
   it('should render "LoginScreen" when user navigate to "/login"', () => {
     const store = mockStore({
       USER: {
