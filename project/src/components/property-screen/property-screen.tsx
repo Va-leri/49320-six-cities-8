@@ -14,7 +14,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import { CommentPost } from '../../types/comment';
 import { requireDataUnload } from '../../store/action';
 import { getCurrentOffer, getNearbyOffers, getComments, getIsDataLoaded } from '../../store/service-data/selectors';
-import { getAuthorizationStatus } from '../../store/user-data/services';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 
 type Params = {
   id: string,
@@ -47,7 +47,7 @@ function PropertyScreen(): JSX.Element {
     store.dispatch(fetchCurrentOfferAction(+currentId))
       .then(() => {
         store.dispatch(fetchNearbyOffersAction(+currentId));
-        store.dispatch(fetchCommentsAction());
+        store.dispatch(fetchCommentsAction(+currentId));
       });
   }, [currentId]);
 
@@ -160,7 +160,7 @@ function PropertyScreen(): JSX.Element {
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={`property__avatar-wrapper ${host.isPro ? 'property__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
                     <img className="property__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">

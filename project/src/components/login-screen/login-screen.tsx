@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { redirectToRout } from '../../store/action';
 import { loginAction } from '../../store/api-actions';
-import { getAuthorizationStatus } from '../../store/user-data/services';
+import { getCity } from '../../store/service-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import Header from '../header/header';
 
 
 function LoginScreen(): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
+  const currentCity = useSelector(getCity);
   const dispatch = useDispatch();
 
   if (authorizationStatus === AuthorizationStatus.AUTH) {
@@ -46,7 +48,7 @@ function LoginScreen(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" minLength={2} pattern={'(?=.*[0-9])(?=.*[A-Za-z])([0-9A-Za-z]+)'} required />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
@@ -54,7 +56,7 @@ function LoginScreen(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
+                <span>{currentCity}</span>
               </a>
             </div>
           </section>
@@ -64,6 +66,4 @@ function LoginScreen(): JSX.Element {
   );
 }
 
-// export { LoginScreen };
-// export default connector(LoginScreen);
 export default LoginScreen;

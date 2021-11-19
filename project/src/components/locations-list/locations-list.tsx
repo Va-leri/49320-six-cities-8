@@ -11,7 +11,7 @@ function LocationsList({ onCityClick, activeCity }: LocationsListProps): JSX.Ele
     <ul className="locations__list tabs__list">
       {CITIES.map((city) => (
         <li className="locations__item" key={city}>
-          <Link className={`locations__item-link tabs__item ${activeCity === city ? ' tabs__item--active' : ''}`} to={AppRoute.MAIN} onClick={() => {
+          <Link className={`locations__item-link tabs__item ${activeCity === city ? ' tabs__item--active' : ''}`} to={AppRoute.MAIN} data-testid={city} onClick={() => {
             onCityClick(city);
           }}
           >

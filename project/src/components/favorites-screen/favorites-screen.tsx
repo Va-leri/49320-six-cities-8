@@ -5,38 +5,11 @@ import { AppRoute } from '../../const';
 import { requireDataUnload } from '../../store/action';
 import { fetchFavoriteOffersAction } from '../../store/api-actions';
 import { getFavoriteOffers, getIsDataLoaded } from '../../store/service-data/selectors';
-import { Offers } from '../../types/offers';
 import { getUniqueItems } from '../../utils';
+import FavoriteLocationItem from '../favorite-location-item/favorite-location-item';
 import Header from '../header/header';
 import LoadingScreen from '../loading-screen/loading-screen';
-import PlaceCard from '../place-card/place-card';
 
-type LocationItemProps = {
-  city: string,
-  offers: Offers,
-};
-
-
-function LocationItem({ city, offers }: LocationItemProps): JSX.Element {
-
-  return (
-    <li className="favorites__locations-items" >
-      <div className="favorites__locations locations locations--current">
-        <div className="locations__item">
-          <a className="locations__item-link" href="#">
-            <span>{city}</span>
-          </a>
-        </div>
-      </div>
-      <div className="favorites__places">
-        {
-          offers.slice().filter((offer) => offer.city.name).map((offer) =>
-            <PlaceCard offer={offer} key={offer.id} screen={AppRoute.FAVORITES} />)
-        }
-      </div>
-    </li>
-  );
-}
 
 function FavoritesScreen(): JSX.Element {
   const dispatch = useDispatch();
@@ -75,7 +48,7 @@ function FavoritesScreen(): JSX.Element {
               areFavorites &&
               <ul className="favorites__list">
 
-                {citiesUnique.map((city) => <LocationItem city={city} offers={favoriteOffers} key={city} />)}
+                {citiesUnique.map((city) => <FavoriteLocationItem city={city} offers={favoriteOffers} key={city} />)}
 
               </ul>
             }

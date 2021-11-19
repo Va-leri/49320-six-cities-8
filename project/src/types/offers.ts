@@ -31,5 +31,6 @@ export type Offer = {
 } | Record<string, never>;
 
 export type Point = Pick<Offer, 'id' | 'location'>;
+export type Points = Point[];
 
 export type Offers = Offer[];

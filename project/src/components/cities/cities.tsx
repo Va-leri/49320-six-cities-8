@@ -31,7 +31,7 @@ function Cities({ areFilteredOffers, filteredOffers, cityName }: CitiesProps): J
       <div className={`cities__places-container container ${!areFilteredOffers ? 'cities__places-container--empty' : ''}`}>
 
         {areFilteredOffers
-          ? <Places points={points} cityName={cityName} filteredOffers={filteredOffers} onListItemHover={onListItemHover} />
+          ? <Places cityName={cityName} filteredOffers={filteredOffers} onListItemHover={onListItemHover} />
           : <NoPlaces cityName={cityName} />}
 
         <div className="cities__right-section">

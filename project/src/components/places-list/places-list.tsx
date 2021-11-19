@@ -1,12 +1,11 @@
-import React, { Fragment } from 'react';
-import { SortingType } from '../../const';
-// import { useState } from 'react';
+import { Fragment } from 'react';
+import { AppRoute, SortingType } from '../../const';
 import { Offer, Offers } from '../../types/offers';
 import PlaceCard from '../place-card/place-card';
 
 type PlacesListProps = {
   offers: Offers;
-  screen: string,
+  screen: AppRoute,
   sortingType: SortingType,
   onListItemHover: (id: number) => void | null,
 };

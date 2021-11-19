@@ -8,6 +8,8 @@ import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 import { redirect } from './store/middlewares/redirect';
 import { rootReducer } from './store/root-reducer';
 import { configureStore } from '@reduxjs/toolkit';
+import { Router } from 'react-router-dom';
+import browserHistory from './browser-history';
 
 export const api = createAPI(() => store.dispatch(requireLogout()));
 
@@ -28,7 +30,9 @@ store.dispatch(fetchOffersAction());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router history={browserHistory}>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
