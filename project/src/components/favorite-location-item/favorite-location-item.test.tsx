@@ -1,25 +1,29 @@
+import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { makeCityName, makeOffers } from '../../utils/mocks';
 import FavoriteLocationItem from './favorite-location-item';
 
 const history = createMemoryHistory();
+const mockStore = configureMockStore();
 
-describe('Component: User', () => {
+describe('Component: FavoriteLocationItem', () => {
   it('should render correctly', () => {
     const fakeOffers = makeOffers(6);
     const city = makeCityName();
 
     render(
-      <Router history={history} >
-        <FavoriteLocationItem
-          city={city}
-          offers={fakeOffers}
-        />
-      </Router>);
+      <Provider store={mockStore()}>
+        <Router history={history} >
+          <FavoriteLocationItem
+            city={city}
+            offers={fakeOffers}
+          />
+        </Router>
+      </Provider>);
 
-    expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText(city)).toBeInTheDocument();
   });
 });
