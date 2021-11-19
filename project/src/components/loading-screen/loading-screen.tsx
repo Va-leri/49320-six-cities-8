@@ -1,8 +1,8 @@
-import { Fragment } from 'react';
+// import { Fragment as div } from 'react';
 
 function LoadingScreen(): JSX.Element {
   return (
-    <Fragment>
+    <div data-testid='loader'>
       <style>
         {`
           .loader {
@@ -251,7 +251,7 @@ body .dribbble img {
           <rect x="8" y="8" width="64" height="64"></rect>
         </svg>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

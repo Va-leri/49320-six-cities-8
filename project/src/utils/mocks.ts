@@ -3,8 +3,8 @@ import { MAX_RATING } from '../const';
 import { AuthData } from '../types/auth-data';
 import { AuthInfo } from '../types/auth-info';
 import { CommentGet, CommentPost, CommentsGet } from '../types/comment';
-import { AuthInfoFromServer, CommentFromServer, CommentsFromServer, OffersFromServer, UserFromServer } from '../types/data-from-server';
-import { City, Location, Offer, Offers } from '../types/offers';
+import { AuthInfoFromServer, CommentFromServer, CommentsFromServer, OfferFromServer, OffersFromServer, UserFromServer } from '../types/data-from-server';
+import { City, Location, Offer, Offers, Point, Points } from '../types/offers';
 import { User } from '../types/user';
 
 const makeRating = (): number => datatype.number(MAX_RATING);
@@ -71,7 +71,7 @@ export const makeOffer = (): Offer => ({
   type: lorem.word(),
 });
 
-export const makeOfferFromServer = () => ({
+export const makeOfferFromServer = (): OfferFromServer => ({
   bedrooms: datatype.number(5),
   city: makeCity(),
   description: lorem.paragraph(),
@@ -90,13 +90,21 @@ export const makeOfferFromServer = () => ({
   type: lorem.word(),
 });
 
-export const makeOffers = (): Offers =>
-  Array(datatype.number(3)).fill(null).map(() => makeOffer());
+export const makeOffers = (number: number): Offers =>
+  Array(number).fill(null).map(() => makeOffer());
 
-export const makeOffersFromServer = (): OffersFromServer =>
-  Array(datatype.number(3)).fill(null).map(() => makeOfferFromServer());
+export const makeOffersFromServer = (number: number): OffersFromServer =>
+  Array(number).fill(null).map(() => makeOfferFromServer());
 
-const makeCommentGet = (): CommentGet => ({
+const makePoint = (): Point => ({
+  id: datatype.number(),
+  location: makeLocation(),
+});
+
+export const makePoints = (number: number): Points => Array(number).fill(null).map(() => makePoint());
+
+
+export const makeCommentGet = (): CommentGet => ({
   comment: lorem.paragraph(),
   date: datatype.datetime(),
   id: datatype.number(),
@@ -104,8 +112,8 @@ const makeCommentGet = (): CommentGet => ({
   user: makeUser(),
 });
 
-export const makeCommentsGet = (): CommentsGet =>
-  Array(datatype.number(12)).fill(null).map(() => makeCommentGet());
+export const makeCommentsGet = (number: number): CommentsGet =>
+  Array(number).fill(null).map(() => makeCommentGet());
 
 export const makeCommentPost = (): CommentPost => ({
   comment: lorem.paragraph(),

@@ -33,7 +33,7 @@ describe('Reducer: serviceData', () => {
   });
 
   it('should set offers by load offers', () => {
-    const fakeOffers = makeOffers();
+    const fakeOffers = makeOffers(6);
 
     expect(serviceData(initialState, loadOffers(fakeOffers)))
       .toEqual({
@@ -44,7 +44,7 @@ describe('Reducer: serviceData', () => {
   });
 
   it('should set favoriteOffers by load favorite offers', () => {
-    const fakeOffers = makeOffers();
+    const fakeOffers = makeOffers(6);
 
     expect(serviceData(initialState, loadFavoriteOffers(fakeOffers)))
       .toEqual({
@@ -55,7 +55,7 @@ describe('Reducer: serviceData', () => {
   });
 
   it('should set nearbyOffers by load nearby offers', () => {
-    const fakeOffers = makeOffers();
+    const fakeOffers = makeOffers(6);
 
     expect(serviceData(initialState, loadNearbyOffers(fakeOffers)))
       .toEqual({
@@ -77,7 +77,7 @@ describe('Reducer: serviceData', () => {
 
 
   it('should set comments by load comments', () => {
-    const fakeComments = makeCommentsGet();
+    const fakeComments = makeCommentsGet(10);
 
     expect(serviceData(initialState, loadComments(fakeComments)))
       .toEqual({
@@ -90,7 +90,7 @@ describe('Reducer: serviceData', () => {
   it('should change isFavorite field value in corresponding offer from offers property', () => {
     const state = {
       ...initialState,
-      offers: makeOffers(),
+      offers: makeOffers(6),
     };
 
     const id = state.offers[0].id;

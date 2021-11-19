@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 
 type PlaceCardProps = {
   offer: Offer,
-  screen: string,
+  screen: AppRoute,
   onPlaceCardHover?: (id: number) => void;
 };
 
@@ -87,7 +87,7 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
   };
 
   return (
-    <article className={`${getCardClassName(screen)} place-card`} id={id.toString()} onMouseEnter={placeCardHoverHandler}>
+    <article className={`${getCardClassName(screen)} place-card`} id={id.toString()} onMouseEnter={placeCardHoverHandler} data-testid="place-card">
       {
         isPremium ?
           <div className="place-card__mark">

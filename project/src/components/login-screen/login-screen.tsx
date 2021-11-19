@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { redirectToRout } from '../../store/action';
 import { loginAction } from '../../store/api-actions';
+import { getCity } from '../../store/service-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import Header from '../header/header';
 
 
 function LoginScreen(): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
+  const currentCity = useSelector(getCity);
   const dispatch = useDispatch();
 
   if (authorizationStatus === AuthorizationStatus.AUTH) {
@@ -54,7 +56,7 @@ function LoginScreen(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
+                <span>{currentCity}</span>
               </a>
             </div>
           </section>
@@ -64,6 +66,4 @@ function LoginScreen(): JSX.Element {
   );
 }
 
-// export { LoginScreen };
-// export default connector(LoginScreen);
 export default LoginScreen;

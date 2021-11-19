@@ -3,32 +3,9 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthorizationStatus, getUser } from '../../store/user-data/selectors';
-import { AuthInfo } from '../../types/auth-info';
+import Guest from '../guest/guest';
+import User from '../user/user';
 
-type UserProps = {
-  user: AuthInfo | Record<string, never>,
-}
-
-
-function Guest(): JSX.Element {
-  return (
-    <Link to={AppRoute.SIGN_IN} className="header__nav-link header__nav-link--profile" >
-      <div className="header__avatar-wrapper user__avatar-wrapper">
-      </div>
-      <span className="header__login">Sign in</span>
-    </Link>
-  );
-}
-
-function User({ user }: UserProps): JSX.Element {
-  return (
-    <Link to={AppRoute.FAVORITES} className="header__nav-link header__nav-link--profile" >
-      <div className="header__avatar-wrapper user__avatar-wrapper">
-      </div>
-      <span className="header__user-name user__name">{user.email}</span>
-    </Link>
-  );
-}
 
 function Header(): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
@@ -78,6 +55,4 @@ function Header(): JSX.Element {
   );
 }
 
-// export { Header };
-// export default connector(Header);
 export default Header;

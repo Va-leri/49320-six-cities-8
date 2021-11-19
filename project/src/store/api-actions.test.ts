@@ -5,13 +5,12 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../types/state';
 import { Action } from 'redux';
 import { APIRoute, AppRoute, AuthorizationStatus, ServerReplyCode } from '../const';
-import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchFavoriteOffersAction, fetchNearbyOffersAction, fetchOffersAction, fetchReviewAction, loginAction, logoutAction } from './api-actions';
-import { changeCity, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireLogout, setUserAuthInfo } from './action';
+import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchFavoriteAction, fetchFavoriteOffersAction, fetchNearbyOffersAction, fetchOffersAction, fetchReviewAction, loginAction, logoutAction } from './api-actions';
+import { changeCity, changeFavoriteStatus, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireLogout, setUserAuthInfo } from './action';
 import { makeCommentPost, makeCommentsFromServer, makeOffer, makeOfferFromServer, makeOffersFromServer, makeUserAuthInfo, makeUserAuthInfoFromServer, makeUserFromServer } from '../utils/mocks';
 import { adaptAuthInfoToClient, adaptCommentToClient, adaptOffersToClient, adaptOfferToClient } from '../adapter/adapter';
 import { AUTH_TOKEN_KEY } from '../services/token';
 import { datatype } from 'faker';
-import { getCurrentOffer } from './service-data/selectors';
 
 describe('Async actions', () => {
   const onFakeUnauthorized = jest.fn();
@@ -111,7 +110,7 @@ describe('Async actions', () => {
   it('should dispatch LoadOffers when GET /hotels', async () => {
     const store = mockStore();
 
-    const offersFromServer = makeOffersFromServer();
+    const offersFromServer = makeOffersFromServer(6);
 
     mockAPI
       .onGet(APIRoute.OFFERS)
@@ -145,7 +144,7 @@ describe('Async actions', () => {
 
   it('should dispatch LoadFavoriteOffers when GET /favorite', async () => {
     const store = mockStore();
-    const favoriteOffers = makeOffersFromServer();
+    const favoriteOffers = makeOffersFromServer(6);
 
     mockAPI
       .onGet(APIRoute.FAVORITES)
@@ -161,7 +160,7 @@ describe('Async actions', () => {
 
   it('should dispatch LoadNearbyOffers when GET /nearby', async () => {
     const store = mockStore();
-    const nearbyOffers = makeOffersFromServer();
+    const nearbyOffers = makeOffersFromServer(6);
     const id = nearbyOffers[0].id;
 
     mockAPI
@@ -194,10 +193,16 @@ describe('Async actions', () => {
   });
 
   it('should dispatch LoadComments when POST /comments', async () => {
-    const store = mockStore();
     const comments = makeCommentsFromServer();
-    const OBJECT_ID = 1;
+
     const fakeCurrentOffer = makeOffer();
+    const store = mockStore({
+      DATA: {
+        currentOffer: fakeCurrentOffer,
+      },
+    });
+
+    const OBJECT_ID = fakeCurrentOffer.id;
     const newComment = makeCommentPost();
     const commentFromServer = {
       ...newComment,
@@ -211,10 +216,6 @@ describe('Async actions', () => {
       commentFromServer,
     ];
 
-    store.dispatch(loadCurrentOffer(fakeCurrentOffer));
-
-    expect(getCurrentOffer(store.getState()))
-      .toEqual(fakeCurrentOffer);
 
     mockAPI
       .onPost(`${APIRoute.COMMENTS}/${OBJECT_ID}`, newComment)
@@ -228,6 +229,34 @@ describe('Async actions', () => {
     expect(store.getActions())
       .toEqual([
         loadComments(commentsFromServer.map((item) => adaptCommentToClient(item))),
+      ]);
+  });
+
+  it('should dispatch ChangeFavoriteStatus when POST /favorite/:id/{isFavorite: number}', async () => {
+    const store = mockStore({
+      USER: {
+        authorizationStatus: AuthorizationStatus.AUTH,
+      },
+    });
+
+    const fakeOfferFromServer = makeOfferFromServer();
+    const fakeOfferFromClient = adaptOfferToClient(fakeOfferFromServer);
+    const objectId = fakeOfferFromClient.id;
+    const wasFavorite = fakeOfferFromClient.isFavorite;
+
+
+    mockAPI
+      .onPost(`${APIRoute.FAVORITES}/${objectId}/${Number(!wasFavorite)}`)
+      .reply(ServerReplyCode.Success, {
+        ...fakeOfferFromServer,
+        'is_favorite': !fakeOfferFromServer.is_favorite,
+      });
+
+    await store.dispatch(fetchFavoriteAction(objectId, wasFavorite));
+
+    expect(store.getActions())
+      .toEqual([
+        changeFavoriteStatus({ id: objectId, isFavorite: !wasFavorite }),
       ]);
   });
 });
