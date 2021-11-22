@@ -7,7 +7,7 @@ import ReviewItem from './review-item';
 
 const history = createMemoryHistory();
 
-describe('Component: User', () => {
+describe('Component: ReviewItem', () => {
   it('should render correctly', () => {
     const fakeComment = makeCommentGet();
     const { user } = fakeComment;

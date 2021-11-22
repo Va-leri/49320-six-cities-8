@@ -18,6 +18,7 @@ function Cities({ areFilteredOffers, filteredOffers, cityName }: CitiesProps): J
 
   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(undefined);
 
+
   const onListItemHover = useCallback((id: number) => {
     const currentPoint = points.find((point) => point.id === id);
 
@@ -25,6 +26,7 @@ function Cities({ areFilteredOffers, filteredOffers, cityName }: CitiesProps): J
       setSelectedPoint(currentPoint);
     }
   }, [points]);
+
 
   return (
     <div className="cities">

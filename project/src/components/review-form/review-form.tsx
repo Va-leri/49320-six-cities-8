@@ -17,6 +17,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     onFormSubmit(review);
+    setReview(initialState);
   };
 
   return (
@@ -28,7 +29,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
 
           return (
             <Fragment key={rating}>
-              <input className="form__rating-input visually-hidden" name="rating" value={rating} id={`${rating}-stars`} type="radio" onChange={(evt: ChangeEvent<HTMLInputElement>) => {
+              <input className="form__rating-input visually-hidden" name="rating" value={rating} id={`${rating}-stars`} type="radio" data-testid={`rating-input-${rating}`} checked={review.rating === rating} onChange={(evt: ChangeEvent<HTMLInputElement>) => {
                 if (!evt.target.checked) {
                   return;
                 }
@@ -38,7 +39,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
                 setIsDisabled(review.comment.length < ReviewLength.MIN || review.comment.length > ReviewLength.MAX || value === 0);
               }}
               />
-              <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title={TitleToRatingValue[rating]} data-testid="rating">
+              <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title={TitleToRatingValue[rating]} data-testid={`rating-label-${rating}`}>
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"></use>
                 </svg>
@@ -48,7 +49,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
         })}
 
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" data-testid="review" onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => {
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" data-testid="review" value={review.comment} onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => {
         const value = evt.target.value;
 
         setReview({ ...review, comment: value });

@@ -20,14 +20,18 @@ function MainScreen(): JSX.Element {
     dispatch(changeCity(city));
   };
 
-  const filteredOffers = useMemo(() => offers.filter((offer) => offer.city.name === cityName), [cityName, offers]);
-
-  const areFilteredOffers = Boolean(filteredOffers.length);
+  const filteredOffers = useMemo(() => {
+    if (!offers.length) {
+      return [];
+    }
+    return offers.filter((offer) => offer.city.name === cityName);
+  }, [cityName, offers]);
 
   if (!isDataLoaded) {
     return <LoadingScreen />;
   }
 
+  const areFilteredOffers = Boolean(filteredOffers.length);
 
   return (
     <div className="page page--gray page--main">

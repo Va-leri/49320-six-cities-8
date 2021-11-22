@@ -59,7 +59,7 @@ export const makeOffer = (): Offer => ({
   goods: Array(datatype.number(5)).fill(null).map(() => commerce.product()),
   host: makeUser(),
   id: datatype.number(),
-  images: Array(datatype.number(5)).fill(null).map(() => system.filePath()),
+  images: Array(1).fill(null).map(() => system.filePath()),
   isFavorite: datatype.boolean(),
   isPremium: datatype.boolean(),
   location: makeLocation(),

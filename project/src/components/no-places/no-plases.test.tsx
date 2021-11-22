@@ -6,7 +6,7 @@ import NoPlaces from './no-plases';
 
 const history = createMemoryHistory();
 
-describe('Component: User', () => {
+describe('Component: NoPlaces', () => {
   it('should render correctly', () => {
     const city = makeCityName();
 
