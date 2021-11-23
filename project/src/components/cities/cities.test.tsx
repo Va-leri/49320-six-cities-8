@@ -3,12 +3,14 @@ import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
+import { AnyAction } from 'redux';
 import { SortingType } from '../../const';
+import { State } from '../../types/state';
 import { makeOffers } from '../../utils/mocks';
 import Cities from './cities';
 
-const mockStore = configureMockStore();
 const history = createMemoryHistory();
+const mockStore = configureMockStore<State, AnyAction>();
 
 jest.mock('../map/map');
 
@@ -19,6 +21,9 @@ describe('Component: Cities', () => {
     const store = mockStore({
       SERVICE: {
         sorting: SortingType.Popular,
+      },
+      DATA: {
+        currentOffer: undefined,
       },
     });
 

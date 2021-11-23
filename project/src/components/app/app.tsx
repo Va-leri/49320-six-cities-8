@@ -6,15 +6,13 @@ import FavoritesScreen from '../favorites-screen/favorites-screen';
 import PropertyScreen from '../property-screen/property-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
+import PublicRoute from '../public-route/public-route';
 
 function App(): JSX.Element {
   return (
     <Switch>
       <Route path={AppRoute.Main} exact>
         <MainScreen />
-      </Route>
-      <Route path={AppRoute.SignIn} exact>
-        <LoginScreen />
       </Route>
       <Route path={AppRoute.Room} exact>
         <PropertyScreen />
@@ -25,6 +23,12 @@ function App(): JSX.Element {
         render={() => <FavoritesScreen />}
       >
       </PrivateRoute>
+      <PublicRoute
+        exact
+        path={AppRoute.SignIn}
+        render={() => <LoginScreen />}
+      >
+      </PublicRoute>
       <Route>
         <NotFoundScreen />
       </Route>

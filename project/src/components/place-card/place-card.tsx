@@ -3,7 +3,8 @@ import { Offer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { MouseEvent } from 'react';
 import { fetchFavoriteAction, fetchFavoriteOffersAction, fetchNearbyOffersAction } from '../../store/api-actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentOffer } from '../../store/service-data/selectors';
 
 type PlaceCardProps = {
   offer: Offer,
@@ -54,6 +55,7 @@ const getImageSize = (path: string) => {
 
 function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Element {
   const dispatch = useDispatch();
+  const currentOffer = useSelector(getCurrentOffer);
 
   function placeCardHoverHandler(evt: MouseEvent<HTMLElement>) {
     if (!onPlaceCardHover) {
@@ -81,8 +83,8 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
   const onBookmarkBtnClick = () => {
     dispatch(fetchFavoriteAction(id, isFavorite));
     dispatch(fetchFavoriteOffersAction());
-    if (screen === AppRoute.Room) {
-      dispatch(fetchNearbyOffersAction(id));
+    if (screen === AppRoute.Room && currentOffer) {
+      dispatch(fetchNearbyOffersAction(currentOffer.id));
     }
   };
 

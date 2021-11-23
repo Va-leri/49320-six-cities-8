@@ -6,16 +6,23 @@ import { AppRoute, SortingType } from '../../const';
 import { makeOffers } from '../../utils/mocks';
 import PlacesList from './places-list';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+import { State } from '../../types/state';
+import { AnyAction } from 'redux';
 
 const history = createMemoryHistory();
-const mockStore = configureMockStore();
+const mockStore = configureMockStore<State, AnyAction>();
+const store = mockStore({
+  DATA: {
+    currentOffer: undefined,
+  },
+});
 
 describe('Component: PlacesList', () => {
   it('should render correctly when sorted type is "Popular"', () => {
     const fakeOffers = makeOffers(10);
 
     render(
-      <Provider store={mockStore()}>
+      <Provider store={store}>
         <Router history={history} >
           <PlacesList
             offers={fakeOffers}
@@ -35,7 +42,7 @@ describe('Component: PlacesList', () => {
     const sortedFakeOffers = fakeOffers.slice().sort((offer1, offer2) => offer1.price - offer2.price);
 
     render(
-      <Provider store={mockStore()}>
+      <Provider store={store}>
         <Router history={history} >
           <PlacesList
             offers={fakeOffers}
@@ -55,7 +62,7 @@ describe('Component: PlacesList', () => {
     const sortedFakeOffers = fakeOffers.slice().sort((offer1, offer2) => offer2.price - offer1.price);
 
     render(
-      <Provider store={mockStore()}>
+      <Provider store={store}>
         <Router history={history} >
           <PlacesList
             offers={fakeOffers}
@@ -75,7 +82,7 @@ describe('Component: PlacesList', () => {
     const sortedFakeOffers = fakeOffers.slice().sort((offer1, offer2) => offer2.rating - offer1.rating);
 
     render(
-      <Provider store={mockStore()}>
+      <Provider store={store}>
         <Router history={history} >
           <PlacesList
             offers={fakeOffers}

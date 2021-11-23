@@ -2,7 +2,7 @@ import { User } from './user';
 
 export type CommentGet = {
   comment: string,
-  date: Date,
+  date: string,
   id: number,
   rating: number,
   user: User,

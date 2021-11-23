@@ -6,9 +6,11 @@ import { makeCityName, makeOffers } from '../../utils/mocks';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import Places from './places';
 import { SortingType } from '../../const';
+import { State } from '../../types/state';
+import { AnyAction } from 'redux';
 
 const history = createMemoryHistory();
-const mockStore = configureMockStore();
+const mockStore = configureMockStore<State, AnyAction>();
 
 describe('Component: Places', () => {
   it('should render correctly', () => {
@@ -17,6 +19,9 @@ describe('Component: Places', () => {
     const store = mockStore({
       SERVICE: {
         sorting: SortingType.Popular,
+      },
+      DATA: {
+        currentOffer: undefined,
       },
     });
 

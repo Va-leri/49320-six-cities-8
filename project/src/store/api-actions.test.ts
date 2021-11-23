@@ -7,7 +7,7 @@ import { Action } from 'redux';
 import { APIRoute, AppRoute, AuthorizationStatus, ServerReplyCode } from '../const';
 import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchFavoriteAction, fetchFavoriteOffersAction, fetchNearbyOffersAction, fetchOffersAction, fetchReviewAction, loginAction, logoutAction } from './api-actions';
 import { changeCity, changeFavoriteStatus, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireLogout, setLoading, setUserAuthInfo } from './action';
-import { makeCommentPost, makeCommentsFromServer, makeOffer, makeOfferFromServer, makeOffersFromServer, makeUserAuthInfo, makeUserAuthInfoFromServer, makeUserFromServer } from '../utils/mocks';
+import { makeCommentPost, makeCommentsFromServer, makeOffer, makeOfferFromServer, makeOffersFromServer, makeUserAuthInfoFromServer, makeUserFromServer } from '../utils/mocks';
 import { adaptAuthInfoToClient, adaptCommentToClient, adaptOffersToClient, adaptOfferToClient } from '../adapter/adapter';
 import { AUTH_TOKEN_KEY } from '../services/token';
 import { datatype } from 'faker';
@@ -22,7 +22,7 @@ describe('Async actions', () => {
 
   it('should dispatch RequriedAuthorization(AuthorizationStatus.AUTH) when server return 200', async () => {
     const store = mockStore();
-    const data = makeUserAuthInfo();
+    const data = makeUserAuthInfoFromServer();
 
     mockAPI
       .onGet(APIRoute.Login)
@@ -36,7 +36,7 @@ describe('Async actions', () => {
     expect(store.getActions())
       .toEqual([
         requireAuthorization(AuthorizationStatus.Auth),
-        setUserAuthInfo(data),
+        setUserAuthInfo(adaptAuthInfoToClient(data)),
       ]);
   });
 

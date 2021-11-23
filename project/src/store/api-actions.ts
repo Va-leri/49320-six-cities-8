@@ -7,22 +7,21 @@ import { dropToken, saveToken } from '../services/token';
 import { adaptAuthInfoToClient, adaptCommentToClient, adaptOffersToClient, adaptOfferToClient } from '../adapter/adapter';
 import { CommentPost } from '../types/comment';
 import { getCurrentOffer } from './service-data/selectors';
-import { getAuthorizationStatus } from './user-data/selectors';
 import { toast } from 'react-toastify';
 
 const AUTH_FAIL_MESSAGE = 'Something went wrong. Please try again later';
 
 
 export const checkAuthAction = (): ThunkActionResult => async (dispatch, _getState, api) => {
-  await api.get(APIRoute.Login)
-    .then(({ data }) => {
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(setUserAuthInfo(data));
-    })
-    .catch((error) => {
-      dispatch(requireLogout());
-      dispatch(setUserAuthInfo({}));
-    });
+  try {
+    const { data } = await api.get(APIRoute.Login);
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setUserAuthInfo(adaptAuthInfoToClient(data)));
+  }
+  catch {
+    dispatch(requireLogout());
+    dispatch(setUserAuthInfo({}));
+  }
 };
 
 export const loginAction = (authData: AuthData): ThunkActionResult => async (dispatch, _getState, api) => {
@@ -58,8 +57,12 @@ export const fetchCurrentOfferAction = (id: number): ThunkActionResult => async 
 };
 
 export const fetchFavoriteOffersAction = (): ThunkActionResult => async (dispatch, _getState, api): Promise<void> => {
-  const { data } = await api.get<OffersFromServer>(APIRoute.Favorites);
-  dispatch(loadFavoriteOffers(adaptOffersToClient(data)));
+  try {
+    const { data } = await api.get<OffersFromServer>(APIRoute.Favorites);
+    dispatch(loadFavoriteOffers(adaptOffersToClient(data)));
+  } catch {
+    dispatch(redirectToRout(AppRoute.SignIn));
+  }
 };
 
 export const fetchNearbyOffersAction = (id: number): ThunkActionResult => async (dispatch, _getState, api): Promise<void> => {
@@ -86,14 +89,14 @@ export const fetchReviewAction = (review: CommentPost): ThunkActionResult => asy
 };
 
 export const fetchFavoriteAction = (objectId: number, wasFavorite: boolean): ThunkActionResult => async (dispatch, getState, api) => {
-  const isAuthorized = getAuthorizationStatus(getState());
-  if (isAuthorized === AuthorizationStatus.NoAuth) {
+  try {
+    const { data } = await api.post<OfferFromServer>(`${APIRoute.Favorites}/${objectId}/${Number(!wasFavorite)}`);
+    const changedOffer = adaptOfferToClient(data);
+    const { id, isFavorite } = changedOffer;
+    dispatch(changeFavoriteStatus({ id, isFavorite }));
+  } catch {
     dispatch(redirectToRout(AppRoute.SignIn));
-  }
 
-  const { data } = await api.post<OfferFromServer>(`${APIRoute.Favorites}/${objectId}/${Number(!wasFavorite)}`);
-  const changedOffer = adaptOfferToClient(data);
-  const { id, isFavorite } = changedOffer;
-  dispatch(changeFavoriteStatus({ id, isFavorite }));
+  }
 };
 

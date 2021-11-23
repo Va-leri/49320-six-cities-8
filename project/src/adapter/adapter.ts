@@ -26,7 +26,7 @@ export const adaptOffersToClient = (offers: OffersFromServer): Offers => (
 export const adaptCommentToClient = (comment: CommentFromServer): CommentGet => ({
   ...comment,
   user: adaptUserToClient(comment.user),
-  date: new Date(comment.date),
+  // date: new Date(comment.date),
 });
 
 export const adaptAuthInfoToClient = (authInfo: AuthInfoFromServer): AuthInfo => {

@@ -29,6 +29,7 @@ describe('Component: MainScreen', () => {
       DATA: {
         isDataLoaded: true,
         offers: fakeOffersForParis,
+        currentOffer: undefined,
       },
       USER: {
         authorizationStatus: AuthorizationStatus.Auth,
@@ -69,6 +70,7 @@ describe('Component: MainScreen', () => {
       DATA: {
         isDataLoaded: true,
         offers: [],
+        currentOffer: undefined,
       },
       USER: {
         authorizationStatus: AuthorizationStatus.Auth,
@@ -101,6 +103,7 @@ describe('Component: MainScreen', () => {
       DATA: {
         isDataLoaded: false,
         offers: [],
+        currentOffer: undefined,
       },
       USER: {
         authorizationStatus: AuthorizationStatus.Auth,

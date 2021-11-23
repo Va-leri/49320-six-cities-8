@@ -22,10 +22,10 @@ describe('Component: PrivateRoute', () => {
     history.push('/private');
   });
 
-  it('should render private component when authorizationStatus === Authorized', () => {
+  it('should render private component when authorizationStatus !== Unauthorized', () => {
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.Auth,
+        authorizationStatus: AuthorizationStatus.Unknown,
       },
     });
 

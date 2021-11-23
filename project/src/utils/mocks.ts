@@ -106,7 +106,7 @@ export const makePoints = (number: number): Points => Array(number).fill(null).m
 
 export const makeCommentGet = (): CommentGet => ({
   comment: lorem.paragraph(),
-  date: datatype.datetime(),
+  date: datatype.datetime().toDateString(),
   id: datatype.number(),
   rating: makeRating(),
   user: makeUser(),
