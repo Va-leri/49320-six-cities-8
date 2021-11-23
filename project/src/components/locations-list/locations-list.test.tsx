@@ -19,6 +19,6 @@ describe('Component: LocationsList', () => {
       </Router>);
 
     expect(screen.getAllByRole('link')).toHaveLength(CITIES.length);
-    expect(screen.getByTestId(city)).toHaveClass('tabs__item--active');
+    expect(screen.getByTestId(new RegExp(`${city}`, 'i'))).toHaveClass('tabs__item--active');
   });
 });

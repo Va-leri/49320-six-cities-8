@@ -13,11 +13,11 @@ type PlaceCardProps = {
 
 const getCardClassName = (path: string) => {
   switch (path) {
-    case AppRoute.MAIN:
+    case AppRoute.Main:
       return 'cities__place-card';
-    case AppRoute.FAVORITES:
+    case AppRoute.Favorites:
       return 'favorites__card';
-    case AppRoute.ROOM:
+    case AppRoute.Room:
       return 'near-places__card';
     default:
       return '';
@@ -26,11 +26,11 @@ const getCardClassName = (path: string) => {
 
 const getImageWrapperClassName = (path: string) => {
   switch (path) {
-    case AppRoute.MAIN:
+    case AppRoute.Main:
       return 'cities__image-wrapper';
-    case AppRoute.FAVORITES:
+    case AppRoute.Favorites:
       return 'favorites__image-wrapper';
-    case AppRoute.ROOM:
+    case AppRoute.Room:
       return 'near-places__image-wrapper';
     default:
       return '';
@@ -39,7 +39,7 @@ const getImageWrapperClassName = (path: string) => {
 
 const getImageSize = (path: string) => {
   switch (path) {
-    case AppRoute.FAVORITES:
+    case AppRoute.Favorites:
       return {
         width: 150,
         height: 110,
@@ -81,7 +81,7 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
   const onBookmarkBtnClick = () => {
     dispatch(fetchFavoriteAction(id, isFavorite));
     dispatch(fetchFavoriteOffersAction());
-    if (screen === AppRoute.ROOM) {
+    if (screen === AppRoute.Room) {
       dispatch(fetchNearbyOffersAction(id));
     }
   };

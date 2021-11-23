@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SortingType } from '../../const';
 import { changeSorting } from '../../store/action';
-
-type SortingProps = {
-  sortingType: SortingType,
-}
+import { getSorting } from '../../store/service-process/selectors';
 
 
-function Sorting({ sortingType }: SortingProps): JSX.Element {
+function Sorting(): JSX.Element {
   const dispatch = useDispatch();
+  const sortingType = useSelector(getSorting);
 
   const [isOptionsListOpened, setOptionsListState] = useState<boolean>(false);
 
@@ -31,7 +29,7 @@ function Sorting({ sortingType }: SortingProps): JSX.Element {
           <use xlinkHref="/icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${isOptionsListOpened ? 'places__options--opened' : ''}`}>
+      <ul className={`places__options places__options--custom ${isOptionsListOpened ? 'places__options--opened' : ''}`} data-testid="options-list">
         {Object.entries(SortingType).map(([key, value]) => (
           <li className={`places__option ${sortingType === value ? 'places__option--active' : ''}`} tabIndex={0} key={key} data-testid='option' onClick={() => { onSortingTypeClick(value); }}>{value}</li>
         ))}

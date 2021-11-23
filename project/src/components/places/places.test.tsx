@@ -16,7 +16,7 @@ describe('Component: Places', () => {
     const fakeOffers = makeOffers(7);
     const store = mockStore({
       SERVICE: {
-        sorting: SortingType.POPULAR,
+        sorting: SortingType.Popular,
       },
     });
 

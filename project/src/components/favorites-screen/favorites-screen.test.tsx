@@ -9,7 +9,7 @@ import { AnyAction } from 'redux';
 import { AuthorizationStatus } from '../../const';
 import { loadFavoriteOffers } from '../../store/action';
 import { makeOffers } from '../../utils/mocks';
-import { getUniqueItems } from '../../utils';
+import { getUniqueItems } from '../../utils/common';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore<State, AnyAction>();
@@ -40,7 +40,7 @@ describe('Component: FavoritesScreen', () => {
         favoriteOffers: fakeOffers,
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
           email: 'email@mail.ru',
         },
@@ -71,7 +71,7 @@ describe('Component: FavoritesScreen', () => {
         favoriteOffers: [],
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
           email: 'email@mail.ru',
         },
@@ -102,7 +102,7 @@ describe('Component: FavoritesScreen', () => {
         favoriteOffers: [],
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
           email: 'email@mail.ru',
         },

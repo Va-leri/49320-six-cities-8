@@ -51,7 +51,7 @@ describe('Component: PropertyScreen', () => {
         comments: [],
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
           email: 'email@mail.ru',
         },
@@ -84,7 +84,7 @@ describe('Component: PropertyScreen', () => {
         comments: [],
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
           email: 'email@mail.ru',
         },
@@ -114,7 +114,7 @@ describe('Component: PropertyScreen', () => {
     fakeOffer.isPremium = true;
 
     const nearbyOffers = makeOffers(3);
-    const fakeEmail = 'email@mail.ru';
+    const FAKE_EMAIL = 'email@mail.ru';
 
     const store = mockStore({
       DATA: {
@@ -124,9 +124,9 @@ describe('Component: PropertyScreen', () => {
         comments: makeCommentsGet(3),
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
-          email: fakeEmail,
+          email: FAKE_EMAIL,
         },
       },
     });
@@ -148,7 +148,7 @@ describe('Component: PropertyScreen', () => {
     expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
     expect(screen.queryByText(/404 Page Not Found/i)).not.toBeInTheDocument();
 
-    expect(screen.getByText(fakeEmail)).toBeInTheDocument();
+    expect(screen.getByText(FAKE_EMAIL)).toBeInTheDocument();
     expect(screen.getByText(fakeOffer.title)).toBeInTheDocument();
     expect(screen.getByText(/Reviews/i)).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toBeInTheDocument();
@@ -171,7 +171,7 @@ describe('Component: PropertyScreen', () => {
         comments: makeCommentsGet(3),
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationStatus: AuthorizationStatus.NoAuth,
         user: {},
       },
     });

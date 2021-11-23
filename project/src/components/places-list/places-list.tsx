@@ -12,13 +12,13 @@ type PlacesListProps = {
 
 const getSortedOffers = (offers: Offers, sortingType: SortingType): Offers => {
   switch (sortingType) {
-    case SortingType.POPULAR:
+    case SortingType.Popular:
       return offers;
-    case SortingType.PRICE_ASC:
+    case SortingType.PriceAsc:
       return offers.slice().sort((offer1, offer2) => offer1.price - offer2.price);
-    case SortingType.PRICE_DESC:
+    case SortingType.PriceDesc:
       return offers.slice().sort((offer1, offer2) => offer2.price - offer1.price);
-    case SortingType.RATING_DESC:
+    case SortingType.RatingDesc:
       return offers.slice().sort((offer1, offer2) => offer2.rating - offer1.rating);
     default:
       return offers;

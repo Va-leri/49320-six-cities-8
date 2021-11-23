@@ -18,7 +18,7 @@ describe('Component: Cities', () => {
     const offers = makeOffers(2);
     const store = mockStore({
       SERVICE: {
-        sorting: SortingType.POPULAR,
+        sorting: SortingType.Popular,
       },
     });
 
@@ -36,7 +36,7 @@ describe('Component: Cities', () => {
     expect(screen.getAllByTestId('place-card')).toHaveLength(offers.length);
   });
 
-  it('should render "NoPlaces" when thera no filtered offers', () => {
+  it('should render "NoPlaces" when there are no filtered offers', () => {
     const city = 'Paris';
 
     render(

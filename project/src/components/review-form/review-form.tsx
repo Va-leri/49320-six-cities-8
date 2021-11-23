@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { MAX_RATING, ReviewLength, TitleToRatingValue } from '../../const';
+import { getIsLoading } from '../../store/service-data/selectors';
 import { CommentPost } from '../../types/comment';
 
 type ReviewProps = {
@@ -11,6 +13,9 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
     rating: 0,
     comment: '',
   };
+
+  const isLoading = useSelector(getIsLoading);
+
   const [review, setReview] = useState(initialState);
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -29,7 +34,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
 
           return (
             <Fragment key={rating}>
-              <input className="form__rating-input visually-hidden" name="rating" value={rating} id={`${rating}-stars`} type="radio" data-testid={`rating-input-${rating}`} checked={review.rating === rating} onChange={(evt: ChangeEvent<HTMLInputElement>) => {
+              <input className="form__rating-input visually-hidden" name="rating" value={rating} id={`${rating}-stars`} type="radio" data-testid={`rating-input-${rating}`} checked={review.rating === rating} disabled={isLoading} onChange={(evt: ChangeEvent<HTMLInputElement>) => {
                 if (!evt.target.checked) {
                   return;
                 }
@@ -49,7 +54,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
         })}
 
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" data-testid="review" value={review.comment} onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => {
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" data-testid="review" value={review.comment} disabled={isLoading} onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => {
         const value = evt.target.value;
 
         setReview({ ...review, comment: value });
@@ -61,7 +66,7 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{ReviewLength.MIN} characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" disabled={isDisabled} type="submit" >Submit</button>
+        <button className="reviews__submit form__submit button" disabled={isDisabled || isLoading} type="submit" >Submit</button>
       </div>
     </form>
   );

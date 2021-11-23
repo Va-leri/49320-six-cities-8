@@ -30,3 +30,5 @@ export const requireLogout = createAction(ActionType.RequireLogout);
 export const redirectToRout = createAction<AppRoute>(ActionType.RedirectToRout);
 
 export const setUserAuthInfo = createAction<AuthInfo | Record<string, never>>(ActionType.SetUserAuthInfo);
+
+export const setLoading = createAction<boolean>(ActionType.SetLoading);

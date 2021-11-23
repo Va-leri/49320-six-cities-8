@@ -38,7 +38,7 @@ function Cities({ areFilteredOffers, filteredOffers, cityName }: CitiesProps): J
 
         <div className="cities__right-section">
           {city &&
-            <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.MAIN}></Map>}
+            <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.Main}></Map>}
         </div>
       </div>
     </div>

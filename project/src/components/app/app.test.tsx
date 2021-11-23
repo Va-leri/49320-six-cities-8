@@ -16,7 +16,7 @@ jest.mock('../favorites-screen/favorites-screen');
 
 describe('Application Routing', () => {
   it('should render "MainScreen" when user navigate to "/"', () => {
-    history.push(AppRoute.MAIN);
+    history.push(AppRoute.Main);
 
     render(
       <Provider store={mockStore()}>
@@ -29,7 +29,7 @@ describe('Application Routing', () => {
   });
 
   it('should render "PropertyScreen" when user navigate to "/offer/:id"', () => {
-    history.push(AppRoute.ROOM);
+    history.push(AppRoute.Room);
 
     render(
       <Provider store={mockStore()}>
@@ -42,11 +42,11 @@ describe('Application Routing', () => {
   });
 
   it('should render "FavoriteScreen" when user navigate to "/favorites" and authorizationStatus is "Authorized"', () => {
-    history.push(AppRoute.FAVORITES);
+    history.push(AppRoute.Favorites);
 
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
       },
     });
 
@@ -63,7 +63,7 @@ describe('Application Routing', () => {
   it('should render "LoginScreen" when user navigate to "/login"', () => {
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationStatus: AuthorizationStatus.NoAuth,
         user: {},
       },
       DATA: {
@@ -75,7 +75,7 @@ describe('Application Routing', () => {
       },
     });
 
-    history.push(AppRoute.SIGN_IN);
+    history.push(AppRoute.SignIn);
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -91,7 +91,7 @@ describe('Application Routing', () => {
   it('should render "NotFoundScreen" when user navigate to non-existent route', () => {
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationStatus: AuthorizationStatus.NoAuth,
         user: {},
       },
     });

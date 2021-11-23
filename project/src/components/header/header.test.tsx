@@ -16,7 +16,7 @@ describe('Component: Header', () => {
 
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: fakeUser,
       },
     });
@@ -35,7 +35,7 @@ describe('Component: Header', () => {
   it('should render correctly when user is NOT authorized', () => {
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationStatus: AuthorizationStatus.NoAuth,
         user: {},
       },
     });

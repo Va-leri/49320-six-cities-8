@@ -21,7 +21,7 @@ function FavoriteLocationItem({ city, offers }: FavoriteLocationItemProps): JSX.
       <div className="favorites__places">
         {
           offers.slice().filter((offer) => offer.city.name === city).map((offer) =>
-            <PlaceCard offer={offer} key={offer.id} screen={AppRoute.FAVORITES} />)
+            <PlaceCard offer={offer} key={offer.id} screen={AppRoute.Favorites} />)
         }
       </div>
     </li>

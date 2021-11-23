@@ -17,7 +17,7 @@ function Property(): JSX.Element {
   const nearbyOffers = useSelector(getNearbyOffers);
   const authorizationStatus = useSelector(getAuthorizationStatus);
 
-  const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const currentId = currentOffer.id;
 
   const onBookmarkBtnClick = () => {
@@ -160,7 +160,7 @@ function Property(): JSX.Element {
         </div>
       </div>
 
-      <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.ROOM}></Map>
+      <Map city={city} points={points} selectedPoint={selectedPoint} screen={AppRoute.Room}></Map>
 
     </section>
   );

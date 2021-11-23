@@ -1,4 +1,4 @@
-import { changeCity, loadComments, loadCurrentOffer, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireDataUnload, requireLogout, setUserAuthInfo, changeSorting, changeFavoriteStatus } from '../store/action';
+import { changeCity, loadComments, loadCurrentOffer, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireDataUnload, requireLogout, setUserAuthInfo, changeSorting, changeFavoriteStatus, setLoading } from '../store/action';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { State } from './state';
 import { AxiosInstance } from 'axios';
@@ -15,6 +15,7 @@ export enum ActionType {
   LoadFavoriteOffers = 'data/loadFavoriteOffers',
   ChangeFavoriteStatus = 'data/changeFavoriteStatus',
   RequireDataUnload = 'data/requireDataUnload',
+  SetLoading = 'data/isLoading',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
   SetUserAuthInfo = 'user/setUserAuthInfo',
@@ -32,6 +33,7 @@ export type Actions =
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>
   | ReturnType<typeof setUserAuthInfo>
+  | ReturnType<typeof setLoading>
   | ReturnType<typeof redirectToRout>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;

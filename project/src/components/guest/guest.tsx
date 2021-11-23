@@ -3,7 +3,7 @@ import { AppRoute } from '../../const';
 
 function Guest(): JSX.Element {
   return (
-    <Link to={AppRoute.SIGN_IN} className="header__nav-link header__nav-link--profile" >
+    <Link to={AppRoute.SignIn} className="header__nav-link header__nav-link--profile" >
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
       <span className="header__login">Sign in</span>

@@ -34,7 +34,7 @@ describe('Component: LoginScreen', () => {
   it('should render correctly when user is NOT authorized', () => {
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationStatus: AuthorizationStatus.NoAuth,
       },
       SERVICE: {
         city: city,

@@ -9,7 +9,7 @@ type UserProps = {
 
 function User({ user }: UserProps): JSX.Element {
   return (
-    <Link to={AppRoute.FAVORITES} className="header__nav-link header__nav-link--profile" >
+    <Link to={AppRoute.Favorites} className="header__nav-link header__nav-link--profile" >
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
       <span className="header__user-name user__name">{user.email}</span>

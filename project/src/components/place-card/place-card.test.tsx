@@ -19,7 +19,7 @@ describe('Component: PlaceCard', () => {
         <Router history={history} >
           <PlaceCard
             offer={fakeOffer}
-            screen={AppRoute.MAIN}
+            screen={AppRoute.Main}
             onPlaceCardHover={jest.fn()}
           />
         </Router>
@@ -45,7 +45,7 @@ describe('Component: PlaceCard', () => {
         <Router history={history} >
           <PlaceCard
             offer={fakeOffer}
-            screen={AppRoute.MAIN}
+            screen={AppRoute.Main}
             onPlaceCardHover={jest.fn()}
           />
         </Router>

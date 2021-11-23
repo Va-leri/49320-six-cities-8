@@ -8,6 +8,8 @@ import { AnyAction } from 'redux';
 import { AuthorizationStatus, CITIES, SortingType } from '../../const';
 import { makeOffers } from '../../utils/mocks';
 import MainScreen from './main-screen';
+import userEvent from '@testing-library/user-event';
+import { changeCity } from '../../store/action';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore<State, AnyAction>();
@@ -29,14 +31,14 @@ describe('Component: MainScreen', () => {
         offers: fakeOffersForParis,
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
           email: 'email@mail.ru',
         },
       },
       SERVICE: {
         city: CITIES[0],
-        sorting: SortingType.POPULAR,
+        sorting: SortingType.Popular,
       },
     });
 
@@ -51,9 +53,16 @@ describe('Component: MainScreen', () => {
     expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
     expect(screen.getByTestId('locations-list')).toBeInTheDocument();
     expect(screen.getAllByTestId(/place-card/i)).toHaveLength(fakeOffers.length);
+
+    const citiesLinks = screen.getAllByTestId(/locations__item/i);
+    userEvent.click(citiesLinks[1]);
+    expect(store.getActions())
+      .toEqual([
+        changeCity(CITIES[1]),
+      ]);
   });
 
-  it('should render correctyle when there are no offers', () => {
+  it('should render correctly when there are no offers', () => {
     const cityName = CITIES[0];
 
     const store = mockStore({
@@ -62,14 +71,14 @@ describe('Component: MainScreen', () => {
         offers: [],
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
           email: 'email@mail.ru',
         },
       },
       SERVICE: {
         city: cityName,
-        sorting: SortingType.POPULAR,
+        sorting: SortingType.Popular,
       },
     });
 
@@ -94,14 +103,14 @@ describe('Component: MainScreen', () => {
         offers: [],
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
           email: 'email@mail.ru',
         },
       },
       SERVICE: {
         city: CITIES[0],
-        sorting: SortingType.POPULAR,
+        sorting: SortingType.Popular,
       },
     });
 

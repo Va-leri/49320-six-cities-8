@@ -14,7 +14,7 @@ const mockStore = configureMockStore();
 
 const fakeOffer = makeOffer();
 const nearbyOffers = makeOffers(3);
-const fakeEmail = 'email@mail.ru';
+const FAKE_EMAIL = 'email@mail.ru';
 fakeOffer.id = 1;
 
 jest.mock('../../store/api-actions', () => {
@@ -47,9 +47,9 @@ describe('Component: Property', () => {
         comments: makeCommentsGet(3),
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
-          email: fakeEmail,
+          email: FAKE_EMAIL,
         },
       },
     });
@@ -82,7 +82,7 @@ describe('Component: Property', () => {
         comments: makeCommentsGet(3),
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationStatus: AuthorizationStatus.NoAuth,
         user: {},
       },
     });
@@ -114,9 +114,9 @@ describe('Component: Property', () => {
         comments: makeCommentsGet(3),
       },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
         user: {
-          email: fakeEmail,
+          email: FAKE_EMAIL,
         },
       },
     });

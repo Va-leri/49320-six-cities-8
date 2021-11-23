@@ -52,7 +52,7 @@ function PropertyScreen(): JSX.Element {
             <div className="near-places__list places__list">
               {
                 nearbyOffers.map((item) => (
-                  <PlaceCard offer={item} screen={AppRoute.ROOM} key={item.id} />
+                  <PlaceCard offer={item} screen={AppRoute.Room} key={item.id} />
                 ))
               }
             </div>

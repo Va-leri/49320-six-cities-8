@@ -13,8 +13,8 @@ function LoginScreen(): JSX.Element {
   const currentCity = useSelector(getCity);
   const dispatch = useDispatch();
 
-  if (authorizationStatus === AuthorizationStatus.AUTH) {
-    dispatch(redirectToRout(AppRoute.FAVORITES));
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    dispatch(redirectToRout(AppRoute.Main));
   }
 
   const loginRef = useRef<HTMLInputElement | null>(null);

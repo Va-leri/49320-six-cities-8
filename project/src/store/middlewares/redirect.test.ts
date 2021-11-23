@@ -24,16 +24,16 @@ describe('Middleware: redirect', () => {
   });
 
   it('should be redirect to /login if action.type === "service/redirectToRout" and action.payload === "/login"', () => {
-    store.dispatch(redirectToRout(AppRoute.SIGN_IN));
-    expect(fakeHistory.location.pathname).toBe(AppRoute.SIGN_IN);
+    store.dispatch(redirectToRout(AppRoute.SignIn));
+    expect(fakeHistory.location.pathname).toBe(AppRoute.SignIn);
     expect(store.getActions())
       .toEqual([
-        redirectToRout(AppRoute.SIGN_IN),
+        redirectToRout(AppRoute.SignIn),
       ]);
   });
 
   it('should not to be redirect /favorites because bad action', () => {
-    store.dispatch({ type: 'UNKNOWN_ACTION', payload: AppRoute.FAVORITES });
-    expect(fakeHistory.location.pathname).not.toBe(AppRoute.FAVORITES);
+    store.dispatch({ type: 'UNKNOWN_ACTION', payload: AppRoute.Favorites });
+    expect(fakeHistory.location.pathname).not.toBe(AppRoute.Favorites);
   });
 });

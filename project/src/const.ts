@@ -1,8 +1,8 @@
 export enum AppRoute {
-  MAIN = '/',
-  SIGN_IN = '/login',
-  FAVORITES = '/favorites',
-  ROOM = '/offer/:id',
+  Main = '/',
+  SignIn = '/login',
+  Favorites = '/favorites',
+  Room = '/offer/:id',
 }
 
 export const MAX_RATING = 5;
@@ -37,25 +37,25 @@ export const CITIES = [
 
 
 export enum SortingType {
-  POPULAR = 'Popular',
-  PRICE_ASC = 'Price low to high',
-  PRICE_DESC = 'Price high to low',
-  RATING_DESC = 'Top rated first',
+  Popular = 'Popular',
+  PriceAsc = 'Price low to high',
+  PriceDesc = 'Price high to low',
+  RatingDesc = 'Top rated first',
 }
 
 export enum AuthorizationStatus {
-  AUTH = 'Authorized',
-  NO_AUTH = 'Unauthorized',
-  UNKNOWN = 'Unknown',
+  Auth = 'Authorized',
+  NoAuth = 'Unauthorized',
+  Unknown = 'Unknown',
 }
 
 export enum APIRoute {
-  OFFERS = '/hotels',
-  LOGIN = '/login',
-  LOGOUT = '/logout',
-  COMMENTS = '/comments',
-  NEARBY = '/nearby',
-  FAVORITES = '/favorite',
+  Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+  Comments = '/comments',
+  Nearby = '/nearby',
+  Favorites = '/favorite',
 }
 
 export enum ServerReplyCode {

@@ -16,6 +16,7 @@ export type ServiceData = {
   nearbyOffers: Offers,
   comments: CommentsGet,
   isDataLoaded: boolean,
+  isLoading: boolean,
 }
 
 export type ServiceProcess = {

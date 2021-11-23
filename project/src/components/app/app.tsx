@@ -10,18 +10,18 @@ import PrivateRoute from '../private-route/private-route';
 function App(): JSX.Element {
   return (
     <Switch>
-      <Route path={AppRoute.MAIN} exact>
+      <Route path={AppRoute.Main} exact>
         <MainScreen />
       </Route>
-      <Route path={AppRoute.SIGN_IN} exact>
+      <Route path={AppRoute.SignIn} exact>
         <LoginScreen />
       </Route>
-      <Route path={AppRoute.ROOM} exact>
+      <Route path={AppRoute.Room} exact>
         <PropertyScreen />
       </Route>
       <PrivateRoute
         exact
-        path={AppRoute.FAVORITES}
+        path={AppRoute.Favorites}
         render={() => <FavoritesScreen />}
       >
       </PrivateRoute>

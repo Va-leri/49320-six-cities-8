@@ -1,5 +1,5 @@
 import { makeCommentsGet, makeOffer, makeOffers } from '../../utils/mocks';
-import { changeFavoriteStatus, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, requireDataUnload } from '../action';
+import { changeFavoriteStatus, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, requireDataUnload, setLoading } from '../action';
 import { serviceData } from './service-data';
 
 
@@ -11,6 +11,7 @@ describe('Reducer: serviceData', () => {
     nearbyOffers: [],
     comments: [],
     isDataLoaded: false,
+    isLoading: false,
   };
 
   it('without additional parameters should return initial state', () => {
@@ -26,10 +27,26 @@ describe('Reducer: serviceData', () => {
       nearbyOffers: [],
       comments: [],
       isDataLoaded: true,
+      isLoading: false,
     };
 
     expect(serviceData(state, requireDataUnload()))
       .toEqual({ ...initialState, isDataLoaded: false });
+  });
+
+  it('should set state.isLoading to true', () => {
+    const state = {
+      offers: [],
+      favoriteOffers: [],
+      currentOffer: {},
+      nearbyOffers: [],
+      comments: [],
+      isDataLoaded: false,
+      isLoading: false,
+    };
+
+    expect(serviceData(state, setLoading(true)))
+      .toEqual({ ...initialState, isLoading: true });
   });
 
   it('should set offers by load offers', () => {
@@ -78,11 +95,16 @@ describe('Reducer: serviceData', () => {
 
   it('should set comments by load comments', () => {
     const fakeComments = makeCommentsGet(10);
+    const state = {
+      ...initialState,
+      isLoading: true,
+    };
 
-    expect(serviceData(initialState, loadComments(fakeComments)))
+    expect(serviceData(state, loadComments(fakeComments)))
       .toEqual({
-        ...initialState,
+        ...state,
         comments: fakeComments,
+        isLoading: false,
       });
   });
 
