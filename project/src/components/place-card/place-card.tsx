@@ -80,8 +80,8 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
 
   const imageSizes = getImageSize(screen);
 
-  const onBookmarkBtnClick = () => {
-    dispatch(fetchFavoriteAction(id, isFavorite));
+  const onBookmarkBtnClick = async () => {
+    await dispatch(fetchFavoriteAction(id, isFavorite));
     dispatch(fetchFavoriteOffersAction());
     if (screen === AppRoute.Room && currentOffer) {
       dispatch(fetchNearbyOffersAction(currentOffer.id));
