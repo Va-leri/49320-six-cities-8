@@ -9,10 +9,6 @@ import PublicRoute from './public-route';
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
 
-/* function PrivateComponent(): JSX.Element {
-  return (<h1>Private component</h1>);
-} */
-
 function PublicComponent(): JSX.Element {
   return (<h1>Public component</h1>);
 }
