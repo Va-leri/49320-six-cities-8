@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
-import { DateFormat, humanizeDate } from '../../utils/common';
+import { DATE_FORMAT } from '../../const';
+import { humanizeDate } from '../../utils/common';
 import { makeCommentGet } from '../../utils/mocks';
 import ReviewItem from './review-item';
 
@@ -21,6 +22,6 @@ describe('Component: ReviewItem', () => {
     expect(screen.getByText(user.name)).toBeInTheDocument();
     expect(screen.getByText(/Rating/i)).toBeInTheDocument();
     expect(screen.getByText(fakeComment.comment)).toBeInTheDocument();
-    expect(screen.getByText(humanizeDate(fakeComment.date, DateFormat['MMMM YYYY']))).toBeInTheDocument();
+    expect(screen.getByText(humanizeDate(fakeComment.date, DATE_FORMAT))).toBeInTheDocument();
   });
 });

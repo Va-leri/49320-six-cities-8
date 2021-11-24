@@ -10,7 +10,7 @@ type MapProps = {
   city: City,
   points: Point[],
   selectedPoint?: Point,
-  screen: string,
+  screen: AppRoute,
 }
 
 function Map({ city, points, selectedPoint, screen }: MapProps): JSX.Element {
@@ -29,7 +29,7 @@ function Map({ city, points, selectedPoint, screen }: MapProps): JSX.Element {
     iconAnchor: [14, 40],
   });
 
-  function getMapClassName(path: string) {
+  function getMapClassName(path: AppRoute) {
     switch (path) {
       case AppRoute.Main:
         return 'cities__map';
@@ -58,7 +58,7 @@ function Map({ city, points, selectedPoint, screen }: MapProps): JSX.Element {
   }, [map, points, selectedPoint]);
 
   return (
-    <section className={`${getMapClassName(screen)} map`} ref={mapRef}>
+    <section className={`${getMapClassName(screen)} map`} ref={mapRef} data-testid="map">
     </section>
   );
 }

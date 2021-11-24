@@ -40,7 +40,7 @@ describe('Component: ReviewForm', () => {
     const submitBtn = screen.getByRole('button');
 
     expect(reviewField).toBeInTheDocument();
-    expect(screen.getByText(new RegExp(`${ReviewLength.MIN} characters`, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(`${ReviewLength.Min} characters`, 'i'))).toBeInTheDocument();
     expect(ratingStars).toHaveLength(MAX_RATING);
     expect(ratingStarsInputs).toHaveLength(MAX_RATING);
     expect(submitBtn).toBeInTheDocument();

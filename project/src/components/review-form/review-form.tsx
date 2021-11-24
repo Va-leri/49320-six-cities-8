@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { MAX_RATING, ReviewLength, TitleToRatingValue } from '../../const';
+import { MAX_RATING, ReviewLength, titleToRatingValue } from '../../const';
 import { getIsLoading } from '../../store/service-data/selectors';
 import { CommentPost } from '../../types/comment';
 
@@ -41,10 +41,10 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
                 const value = parseInt(evt.target.value, 10);
 
                 setReview({ ...review, rating: value });
-                setIsDisabled(review.comment.length < ReviewLength.MIN || review.comment.length > ReviewLength.MAX || value === 0);
+                setIsDisabled(review.comment.length < ReviewLength.Min || review.comment.length > ReviewLength.Max || value === 0);
               }}
               />
-              <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title={TitleToRatingValue[rating]} data-testid={`rating-label-${rating}`}>
+              <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title={titleToRatingValue[rating]} data-testid={`rating-label-${rating}`}>
                 <svg className="form__star-image" width="37" height="33">
                   <use xlinkHref="#icon-star"></use>
                 </svg>
@@ -58,13 +58,13 @@ function ReviewForm({ onFormSubmit }: ReviewProps): JSX.Element {
         const value = evt.target.value;
 
         setReview({ ...review, comment: value });
-        setIsDisabled(value.length < ReviewLength.MIN || review.comment.length > ReviewLength.MAX || review.rating === 0);
+        setIsDisabled(value.length < ReviewLength.Min || review.comment.length > ReviewLength.Max || review.rating === 0);
       }}
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{ReviewLength.MIN} characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{ReviewLength.Min} characters</b>.
         </p>
         <button className="reviews__submit form__submit button" disabled={isDisabled || isLoading} type="submit" >Submit</button>
       </div>
