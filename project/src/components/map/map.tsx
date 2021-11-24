@@ -31,9 +31,9 @@ function Map({ city, points, selectedPoint, screen }: MapProps): JSX.Element {
 
   function getMapClassName(path: string) {
     switch (path) {
-      case AppRoute.MAIN:
+      case AppRoute.Main:
         return 'cities__map';
-      case AppRoute.ROOM:
+      case AppRoute.Room:
         return 'property__map';
       default:
         return '';

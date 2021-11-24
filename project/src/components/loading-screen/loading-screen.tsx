@@ -1,5 +1,3 @@
-// import { Fragment as div } from 'react';
-
 function LoadingScreen(): JSX.Element {
   return (
     <div data-testid='loader'>

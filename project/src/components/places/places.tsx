@@ -20,9 +20,9 @@ function Places({ cityName, filteredOffers, onListItemHover }: PlacesProps): JSX
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">{filteredOffers.length} places to stay in {cityName}</b>
-      <Sorting sortingType={sorting} />
+      <Sorting />
       <div className="cities__places-list places__list tabs__content">
-        <PlacesList offers={filteredOffers} screen={AppRoute.MAIN} onListItemHover={onListItemHover} sortingType={sorting} />
+        <PlacesList offers={filteredOffers} screen={AppRoute.Main} onListItemHover={onListItemHover} sortingType={sorting} />
       </div>
     </section>
   );

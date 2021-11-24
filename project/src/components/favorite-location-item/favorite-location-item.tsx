@@ -10,7 +10,7 @@ type FavoriteLocationItemProps = {
 
 function FavoriteLocationItem({ city, offers }: FavoriteLocationItemProps): JSX.Element {
   return (
-    <li className="favorites__locations-items" >
+    <li className="favorites__locations-items" data-testid={`location-item-${city}`}>
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <a className="locations__item-link" href="#">
@@ -20,8 +20,8 @@ function FavoriteLocationItem({ city, offers }: FavoriteLocationItemProps): JSX.
       </div>
       <div className="favorites__places">
         {
-          offers.slice().filter((offer) => offer.city.name).map((offer) =>
-            <PlaceCard offer={offer} key={offer.id} screen={AppRoute.FAVORITES} />)
+          offers.slice().filter((offer) => offer.city.name === city).map((offer) =>
+            <PlaceCard offer={offer} key={offer.id} screen={AppRoute.Favorites} />)
         }
       </div>
     </li>

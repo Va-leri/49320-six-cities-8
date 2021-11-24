@@ -1,24 +1,25 @@
 import { FormEvent, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRoute, AuthorizationStatus } from '../../const';
-import { redirectToRout } from '../../store/action';
+import { AuthorizationStatus } from '../../const';
 import { loginAction } from '../../store/api-actions';
 import { getCity } from '../../store/service-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import Header from '../header/header';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 
 function LoginScreen(): JSX.Element {
-  const authorizationStatus = useSelector(getAuthorizationStatus);
   const currentCity = useSelector(getCity);
-  const dispatch = useDispatch();
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
-  if (authorizationStatus === AuthorizationStatus.AUTH) {
-    dispatch(redirectToRout(AppRoute.FAVORITES));
-  }
+  const dispatch = useDispatch();
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <LoadingScreen />;
+  }
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -48,7 +49,7 @@ function LoginScreen(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" minLength={2} pattern={'(?=.*[0-9])(?=.*[A-Za-z])([0-9A-Za-z]+)'} required />
+                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" minLength={2} required />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

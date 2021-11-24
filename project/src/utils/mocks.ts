@@ -6,6 +6,7 @@ import { CommentGet, CommentPost, CommentsGet } from '../types/comment';
 import { AuthInfoFromServer, CommentFromServer, CommentsFromServer, OfferFromServer, OffersFromServer, UserFromServer } from '../types/data-from-server';
 import { City, Location, Offer, Offers, Point, Points } from '../types/offers';
 import { User } from '../types/user';
+import { getUniqueItems } from './common';
 
 const makeRating = (): number => datatype.number(MAX_RATING);
 
@@ -59,7 +60,7 @@ export const makeOffer = (): Offer => ({
   goods: Array(datatype.number(5)).fill(null).map(() => commerce.product()),
   host: makeUser(),
   id: datatype.number(),
-  images: Array(datatype.number(5)).fill(null).map(() => system.filePath()),
+  images: Array(1).fill(null).map(() => system.filePath()),
   isFavorite: datatype.boolean(),
   isPremium: datatype.boolean(),
   location: makeLocation(),
@@ -75,7 +76,7 @@ export const makeOfferFromServer = (): OfferFromServer => ({
   bedrooms: datatype.number(5),
   city: makeCity(),
   description: lorem.paragraph(),
-  goods: Array(datatype.number(5)).fill(null).map(() => commerce.product()),
+  goods: getUniqueItems(Array(datatype.number(5)).fill(null).map(() => commerce.product())),
   host: makeUserFromServer(),
   id: datatype.number(),
   images: Array(datatype.number(5)).fill(null).map(() => system.filePath()),
@@ -106,7 +107,7 @@ export const makePoints = (number: number): Points => Array(number).fill(null).m
 
 export const makeCommentGet = (): CommentGet => ({
   comment: lorem.paragraph(),
-  date: datatype.datetime(),
+  date: datatype.datetime().toDateString(),
   id: datatype.number(),
   rating: makeRating(),
   user: makeUser(),

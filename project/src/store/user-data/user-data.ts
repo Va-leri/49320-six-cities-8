@@ -4,7 +4,7 @@ import { UserData } from '../../types/state';
 import { requireAuthorization, requireLogout, setUserAuthInfo } from '../action';
 
 const initialState: UserData = {
-  authorizationStatus: AuthorizationStatus.UNKNOWN,
+  authorizationStatus: AuthorizationStatus.Unknown,
   user: {},
 };
 
@@ -14,7 +14,7 @@ const userData = createReducer(initialState, (builder) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(requireLogout, (state) => {
-      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
     })
     .addCase(setUserAuthInfo, (state, action) => {
       state.user = action.payload;

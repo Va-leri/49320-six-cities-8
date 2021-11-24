@@ -5,7 +5,7 @@ import { changeCity, changeSorting } from '../action';
 
 const initialState: ServiceProcess = {
   city: CITIES[0],
-  sorting: SortingType.POPULAR,
+  sorting: SortingType.Popular,
 };
 
 const serviceProcess = createReducer(initialState, (builder) => {

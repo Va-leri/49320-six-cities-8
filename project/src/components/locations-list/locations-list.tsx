@@ -8,10 +8,10 @@ type LocationsListProps = {
 
 function LocationsList({ onCityClick, activeCity }: LocationsListProps): JSX.Element {
   return (
-    <ul className="locations__list tabs__list">
+    <ul className="locations__list tabs__list" data-testid="locations-list">
       {CITIES.map((city) => (
         <li className="locations__item" key={city}>
-          <Link className={`locations__item-link tabs__item ${activeCity === city ? ' tabs__item--active' : ''}`} to={AppRoute.MAIN} data-testid={city} onClick={() => {
+          <Link className={`locations__item-link tabs__item ${activeCity === city ? ' tabs__item--active' : ''}`} to={AppRoute.Main} data-testid={`locations__item-${city}`} onClick={() => {
             onCityClick(city);
           }}
           >

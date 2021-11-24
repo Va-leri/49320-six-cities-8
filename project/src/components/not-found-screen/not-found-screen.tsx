@@ -38,7 +38,7 @@ function NotFoundScreen(): JSX.Element {
         <div className="container not-found">
           <p className="not-found__lead">404 Page Not Found</p>
           <p className="not-found__link">
-            <Link to={AppRoute.MAIN}>
+            <Link to={AppRoute.Main}>
               <span>Back To Main</span>
             </Link>
           </p>

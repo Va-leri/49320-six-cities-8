@@ -5,24 +5,43 @@ import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { SortingType } from '../../const';
 import Sorting from './sorting';
+import userEvent from '@testing-library/user-event';
+import { changeSorting } from '../../store/action';
+import { State } from '../../types/state';
+import { AnyAction } from 'redux';
 
 const history = createMemoryHistory();
-const mockStore = configureMockStore();
+const mockStore = configureMockStore<State, AnyAction>();
 
 describe('Component: Sorting', () => {
   it('should render correctly', () => {
-    const sortingType = SortingType.POPULAR;
+    const sortingType = SortingType.Popular;
+    const store = mockStore({
+      SERVICE: {
+        sorting: SortingType.Popular,
+      },
+    });
 
     render(
-      <Provider store={mockStore()}>
+      <Provider store={store}>
         <Router history={history} >
-          <Sorting
-            sortingType={sortingType}
-          />
+          <Sorting />
         </Router>
       </Provider>);
 
+    const options = screen.getAllByTestId('option');
+
     expect(screen.getAllByText(sortingType)).toHaveLength(2);
-    expect(screen.getAllByTestId('option')).toHaveLength(Object.entries(SortingType).length);
+    expect(options).toHaveLength(Object.entries(SortingType).length);
+
+    userEvent.click(screen.getAllByText(sortingType)[0]);
+    expect(screen.getByTestId('options-list')).toHaveClass('places__options--opened');
+
+    userEvent.click(screen.getByText(SortingType.PriceAsc));
+    expect(screen.getByTestId('options-list')).not.toHaveClass('places__options--opened');
+    expect(store.getActions())
+      .toEqual([
+        changeSorting(SortingType.PriceAsc),
+      ]);
   });
 });

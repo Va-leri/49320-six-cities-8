@@ -14,7 +14,7 @@ describe('Component: NotFoundScreen', () => {
   it('should render correctly', () => {
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationStatus: AuthorizationStatus.NoAuth,
       },
     });
 

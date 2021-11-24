@@ -6,20 +6,27 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { makeOffer } from '../../utils/mocks';
 import { AppRoute } from '../../const';
 import PlaceCard from './place-card';
+import { State } from '../../types/state';
+import { AnyAction } from 'redux';
 
 const history = createMemoryHistory();
-const mockStore = configureMockStore();
+const mockStore = configureMockStore<State, AnyAction>();
+const store = mockStore({
+  DATA: {
+    currentOffer: makeOffer(),
+  },
+});
 
 describe('Component: PlaceCard', () => {
   it('should render correctly when user is authorized', () => {
     const fakeOffer = makeOffer();
 
     render(
-      <Provider store={mockStore()}>
+      <Provider store={store}>
         <Router history={history} >
           <PlaceCard
             offer={fakeOffer}
-            screen={AppRoute.MAIN}
+            screen={AppRoute.Main}
             onPlaceCardHover={jest.fn()}
           />
         </Router>
@@ -41,11 +48,11 @@ describe('Component: PlaceCard', () => {
     fakeOffer.isPremium = true;
 
     render(
-      <Provider store={mockStore()}>
+      <Provider store={store}>
         <Router history={history} >
           <PlaceCard
             offer={fakeOffer}
-            screen={AppRoute.MAIN}
+            screen={AppRoute.Main}
             onPlaceCardHover={jest.fn()}
           />
         </Router>

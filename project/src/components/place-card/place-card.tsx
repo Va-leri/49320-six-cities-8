@@ -3,7 +3,8 @@ import { Offer } from '../../types/offers';
 import { Link } from 'react-router-dom';
 import { MouseEvent } from 'react';
 import { fetchFavoriteAction, fetchFavoriteOffersAction, fetchNearbyOffersAction } from '../../store/api-actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentOffer } from '../../store/service-data/selectors';
 
 type PlaceCardProps = {
   offer: Offer,
@@ -13,11 +14,11 @@ type PlaceCardProps = {
 
 const getCardClassName = (path: string) => {
   switch (path) {
-    case AppRoute.MAIN:
+    case AppRoute.Main:
       return 'cities__place-card';
-    case AppRoute.FAVORITES:
+    case AppRoute.Favorites:
       return 'favorites__card';
-    case AppRoute.ROOM:
+    case AppRoute.Room:
       return 'near-places__card';
     default:
       return '';
@@ -26,11 +27,11 @@ const getCardClassName = (path: string) => {
 
 const getImageWrapperClassName = (path: string) => {
   switch (path) {
-    case AppRoute.MAIN:
+    case AppRoute.Main:
       return 'cities__image-wrapper';
-    case AppRoute.FAVORITES:
+    case AppRoute.Favorites:
       return 'favorites__image-wrapper';
-    case AppRoute.ROOM:
+    case AppRoute.Room:
       return 'near-places__image-wrapper';
     default:
       return '';
@@ -39,7 +40,7 @@ const getImageWrapperClassName = (path: string) => {
 
 const getImageSize = (path: string) => {
   switch (path) {
-    case AppRoute.FAVORITES:
+    case AppRoute.Favorites:
       return {
         width: 150,
         height: 110,
@@ -54,6 +55,7 @@ const getImageSize = (path: string) => {
 
 function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Element {
   const dispatch = useDispatch();
+  const currentOffer = useSelector(getCurrentOffer);
 
   function placeCardHoverHandler(evt: MouseEvent<HTMLElement>) {
     if (!onPlaceCardHover) {
@@ -78,11 +80,11 @@ function PlaceCard({ offer, screen, onPlaceCardHover }: PlaceCardProps): JSX.Ele
 
   const imageSizes = getImageSize(screen);
 
-  const onBookmarkBtnClick = () => {
-    dispatch(fetchFavoriteAction(id, isFavorite));
+  const onBookmarkBtnClick = async () => {
+    await dispatch(fetchFavoriteAction(id, isFavorite));
     dispatch(fetchFavoriteOffersAction());
-    if (screen === AppRoute.ROOM) {
-      dispatch(fetchNearbyOffersAction(id));
+    if (screen === AppRoute.Room && currentOffer) {
+      dispatch(fetchNearbyOffersAction(currentOffer.id));
     }
   };
 

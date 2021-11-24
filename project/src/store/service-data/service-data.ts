@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ServiceData } from '../../types/state';
-import { changeFavoriteStatus, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, requireDataUnload } from '../action';
+import { changeFavoriteStatus, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, requireDataUnload, setLoading } from '../action';
 
 const initialState: ServiceData = {
   offers: [],
@@ -9,6 +9,7 @@ const initialState: ServiceData = {
   nearbyOffers: [],
   comments: [],
   isDataLoaded: false,
+  isLoading: false,
 };
 
 const serviceData = createReducer(initialState, (builder) => {
@@ -35,10 +36,14 @@ const serviceData = createReducer(initialState, (builder) => {
       state.nearbyOffers = action.payload;
     })
     .addCase(loadComments, (state, action) => {
+      state.isLoading = false;
       state.comments = action.payload;
     })
     .addCase(requireDataUnload, (state) => {
       state.isDataLoaded = false;
+    })
+    .addCase(setLoading, (state, action) => {
+      state.isLoading = action.payload;
     });
 });
 

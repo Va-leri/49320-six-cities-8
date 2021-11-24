@@ -5,7 +5,7 @@ import { AppRoute } from '../../const';
 import { requireDataUnload } from '../../store/action';
 import { fetchFavoriteOffersAction } from '../../store/api-actions';
 import { getFavoriteOffers, getIsDataLoaded } from '../../store/service-data/selectors';
-import { getUniqueItems } from '../../utils';
+import { getUniqueItems } from '../../utils/common';
 import FavoriteLocationItem from '../favorite-location-item/favorite-location-item';
 import Header from '../header/header';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -63,7 +63,7 @@ function FavoritesScreen(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <Link to={AppRoute.MAIN} className="footer__logo-link">
+        <Link to={AppRoute.Main} className="footer__logo-link">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </Link>
       </footer>

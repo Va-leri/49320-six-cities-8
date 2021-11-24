@@ -11,7 +11,7 @@ const mockStore = configureMockStore();
 
 describe('Component: FavoriteLocationItem', () => {
   it('should render correctly', () => {
-    const fakeOffers = makeOffers(6);
+    const fakeOffers = makeOffers(2);
     const city = makeCityName();
 
     render(

@@ -22,7 +22,7 @@ function Header(): JSX.Element {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link to={AppRoute.MAIN} className="header__logo-link">
+            <Link to={AppRoute.Main} className="header__logo-link">
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
@@ -30,13 +30,13 @@ function Header(): JSX.Element {
             <ul className="header__nav-list">
               <li className="header__nav-item user">
                 {
-                  authorizationStatus === AuthorizationStatus.AUTH
+                  authorizationStatus === AuthorizationStatus.Auth
                     ? <User user={user} />
                     : <Guest />
                 }
               </li>
               {
-                authorizationStatus === AuthorizationStatus.AUTH &&
+                authorizationStatus === AuthorizationStatus.Auth &&
                 <li className="header__nav-item">
                   <Link className="header__nav-link" to="/" onClick={(evt) => {
                     evt.preventDefault();

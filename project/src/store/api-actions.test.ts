@@ -6,8 +6,8 @@ import { State } from '../types/state';
 import { Action } from 'redux';
 import { APIRoute, AppRoute, AuthorizationStatus, ServerReplyCode } from '../const';
 import { checkAuthAction, fetchCommentsAction, fetchCurrentOfferAction, fetchFavoriteAction, fetchFavoriteOffersAction, fetchNearbyOffersAction, fetchOffersAction, fetchReviewAction, loginAction, logoutAction } from './api-actions';
-import { changeCity, changeFavoriteStatus, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireLogout, setUserAuthInfo } from './action';
-import { makeCommentPost, makeCommentsFromServer, makeOffer, makeOfferFromServer, makeOffersFromServer, makeUserAuthInfo, makeUserAuthInfoFromServer, makeUserFromServer } from '../utils/mocks';
+import { changeCity, changeFavoriteStatus, loadComments, loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOffers, redirectToRout, requireAuthorization, requireLogout, setLoading, setUserAuthInfo } from './action';
+import { makeCommentPost, makeCommentsFromServer, makeOffer, makeOfferFromServer, makeOffersFromServer, makeUserAuthInfoFromServer, makeUserFromServer } from '../utils/mocks';
 import { adaptAuthInfoToClient, adaptCommentToClient, adaptOffersToClient, adaptOfferToClient } from '../adapter/adapter';
 import { AUTH_TOKEN_KEY } from '../services/token';
 import { datatype } from 'faker';
@@ -22,10 +22,10 @@ describe('Async actions', () => {
 
   it('should dispatch RequriedAuthorization(AuthorizationStatus.AUTH) when server return 200', async () => {
     const store = mockStore();
-    const data = makeUserAuthInfo();
+    const data = makeUserAuthInfoFromServer();
 
     mockAPI
-      .onGet(APIRoute.LOGIN)
+      .onGet(APIRoute.Login)
       .reply(ServerReplyCode.Success, data);
 
     expect(store.getActions())
@@ -35,8 +35,8 @@ describe('Async actions', () => {
 
     expect(store.getActions())
       .toEqual([
-        requireAuthorization(AuthorizationStatus.AUTH),
-        setUserAuthInfo(data),
+        requireAuthorization(AuthorizationStatus.Auth),
+        setUserAuthInfo(adaptAuthInfoToClient(data)),
       ]);
   });
 
@@ -44,7 +44,7 @@ describe('Async actions', () => {
     const store = mockStore();
 
     mockAPI
-      .onGet(APIRoute.LOGIN)
+      .onGet(APIRoute.Login)
       .reply(ServerReplyCode.Unauthorized, []);
 
     expect(store.getActions())
@@ -71,16 +71,16 @@ describe('Async actions', () => {
     const authInfo = makeUserAuthInfoFromServer();
 
     mockAPI
-      .onPost(APIRoute.LOGIN, authData)
+      .onPost(APIRoute.Login, authData)
       .reply(ServerReplyCode.Success, authInfo);
 
     await store.dispatch(loginAction(authData));
 
     expect(store.getActions())
       .toEqual([
-        requireAuthorization(AuthorizationStatus.AUTH),
+        requireAuthorization(AuthorizationStatus.Auth),
         setUserAuthInfo(adaptAuthInfoToClient(authInfo)),
-        redirectToRout(AppRoute.MAIN),
+        redirectToRout(AppRoute.Main),
       ]);
 
     expect(Storage.prototype.setItem).toBeCalledTimes(1);
@@ -92,7 +92,7 @@ describe('Async actions', () => {
     Storage.prototype.removeItem = jest.fn();
 
     mockAPI
-      .onDelete(APIRoute.LOGOUT)
+      .onDelete(APIRoute.Logout)
       .reply(ServerReplyCode.NoContent);
 
     await store.dispatch(logoutAction());
@@ -113,7 +113,7 @@ describe('Async actions', () => {
     const offersFromServer = makeOffersFromServer(6);
 
     mockAPI
-      .onGet(APIRoute.OFFERS)
+      .onGet(APIRoute.Offers)
       .reply(ServerReplyCode.Success, offersFromServer);
 
     await store.dispatch(fetchOffersAction());
@@ -130,7 +130,7 @@ describe('Async actions', () => {
     const offerFromServer = makeOfferFromServer();
 
     mockAPI
-      .onGet(`${APIRoute.OFFERS}/${ID}`)
+      .onGet(`${APIRoute.Offers}/${ID}`)
       .reply(ServerReplyCode.Success, offerFromServer);
 
     await store.dispatch(fetchCurrentOfferAction(ID));
@@ -147,7 +147,7 @@ describe('Async actions', () => {
     const favoriteOffers = makeOffersFromServer(6);
 
     mockAPI
-      .onGet(APIRoute.FAVORITES)
+      .onGet(APIRoute.Favorites)
       .reply(ServerReplyCode.Success, favoriteOffers);
 
     await store.dispatch(fetchFavoriteOffersAction());
@@ -164,7 +164,7 @@ describe('Async actions', () => {
     const id = nearbyOffers[0].id;
 
     mockAPI
-      .onGet(`${APIRoute.OFFERS}/${id}${APIRoute.NEARBY}`)
+      .onGet(`${APIRoute.Offers}/${id}${APIRoute.Nearby}`)
       .reply(ServerReplyCode.Success, nearbyOffers);
 
     await store.dispatch(fetchNearbyOffersAction(id));
@@ -181,7 +181,7 @@ describe('Async actions', () => {
     const OBJECT_ID = 1;
 
     mockAPI
-      .onGet(`${APIRoute.COMMENTS}/${OBJECT_ID}`)
+      .onGet(`${APIRoute.Comments}/${OBJECT_ID}`)
       .reply(ServerReplyCode.Success, comments);
 
     await store.dispatch(fetchCommentsAction(OBJECT_ID));
@@ -218,7 +218,7 @@ describe('Async actions', () => {
 
 
     mockAPI
-      .onPost(`${APIRoute.COMMENTS}/${OBJECT_ID}`, newComment)
+      .onPost(`${APIRoute.Comments}/${OBJECT_ID}`, newComment)
       .reply(ServerReplyCode.Success, [
         ...comments,
         commentFromServer,
@@ -228,6 +228,7 @@ describe('Async actions', () => {
 
     expect(store.getActions())
       .toEqual([
+        setLoading(true),
         loadComments(commentsFromServer.map((item) => adaptCommentToClient(item))),
       ]);
   });
@@ -235,7 +236,7 @@ describe('Async actions', () => {
   it('should dispatch ChangeFavoriteStatus when POST /favorite/:id/{isFavorite: number}', async () => {
     const store = mockStore({
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.Auth,
       },
     });
 
@@ -246,7 +247,7 @@ describe('Async actions', () => {
 
 
     mockAPI
-      .onPost(`${APIRoute.FAVORITES}/${objectId}/${Number(!wasFavorite)}`)
+      .onPost(`${APIRoute.Favorites}/${objectId}/${Number(!wasFavorite)}`)
       .reply(ServerReplyCode.Success, {
         ...fakeOfferFromServer,
         'is_favorite': !fakeOfferFromServer.is_favorite,

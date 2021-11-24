@@ -15,4 +15,4 @@ export const getComments = (state: State): CommentsGet => state[NameSpace.data].
 
 export const getIsDataLoaded = (state: State): boolean => state[NameSpace.data].isDataLoaded;
 
-
+export const getIsLoading = (state: State): boolean => state[NameSpace.data].isLoading;

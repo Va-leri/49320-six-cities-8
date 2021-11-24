@@ -6,7 +6,7 @@ import { serviceProcess } from './service-process';
 describe('Reducer: serviceProcess', () => {
   const initialState = {
     city: CITIES[0],
-    sorting: SortingType.POPULAR,
+    sorting: SortingType.Popular,
   };
 
   it('without additional parameters should return initial state', () => {
@@ -25,10 +25,10 @@ describe('Reducer: serviceProcess', () => {
   });
 
   it('should set sorting to SortingType.PRICE_ASC', () => {
-    expect(serviceProcess(initialState, changeSorting(SortingType.PRICE_ASC)))
+    expect(serviceProcess(initialState, changeSorting(SortingType.PriceAsc)))
       .toEqual({
         ...initialState,
-        sorting: SortingType.PRICE_ASC,
+        sorting: SortingType.PriceAsc,
       });
   });
 });
