@@ -74,4 +74,24 @@ describe('Component: LoginScreen', () => {
       ]);
   });
 
+  it('should render Loading screen when authorization status in unknown', () => {
+    const store = mockStore({
+      USER: {
+        authorizationStatus: AuthorizationStatus.Unknown,
+      },
+      SERVICE: {
+        city: city,
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <Router history={history} >
+          <LoginScreen />
+        </Router>
+      </Provider>);
+
+    expect(screen.queryByText(/sign in/i)).not.toBeInTheDocument();
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+  });
 });

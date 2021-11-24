@@ -6,6 +6,7 @@ import { CommentGet, CommentPost, CommentsGet } from '../types/comment';
 import { AuthInfoFromServer, CommentFromServer, CommentsFromServer, OfferFromServer, OffersFromServer, UserFromServer } from '../types/data-from-server';
 import { City, Location, Offer, Offers, Point, Points } from '../types/offers';
 import { User } from '../types/user';
+import { getUniqueItems } from './common';
 
 const makeRating = (): number => datatype.number(MAX_RATING);
 
@@ -75,7 +76,7 @@ export const makeOfferFromServer = (): OfferFromServer => ({
   bedrooms: datatype.number(5),
   city: makeCity(),
   description: lorem.paragraph(),
-  goods: Array(datatype.number(5)).fill(null).map(() => commerce.product()),
+  goods: getUniqueItems(Array(datatype.number(5)).fill(null).map(() => commerce.product())),
   host: makeUserFromServer(),
   id: datatype.number(),
   images: Array(datatype.number(5)).fill(null).map(() => system.filePath()),

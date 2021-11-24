@@ -19,7 +19,7 @@ const store = mockStore({
 
 describe('Component: PlacesList', () => {
   it('should render correctly when sorted type is "Popular"', () => {
-    const fakeOffers = makeOffers(10);
+    const fakeOffers = makeOffers(6);
 
     render(
       <Provider store={store}>
@@ -38,7 +38,7 @@ describe('Component: PlacesList', () => {
   });
 
   it('should render correctly when sorted type is "Price low to high"', () => {
-    const fakeOffers = makeOffers(10);
+    const fakeOffers = makeOffers(6);
     const sortedFakeOffers = fakeOffers.slice().sort((offer1, offer2) => offer1.price - offer2.price);
 
     render(
@@ -58,7 +58,7 @@ describe('Component: PlacesList', () => {
   });
 
   it('should render correctly when sorted type is "Price high to low"', () => {
-    const fakeOffers = makeOffers(10);
+    const fakeOffers = makeOffers(6);
     const sortedFakeOffers = fakeOffers.slice().sort((offer1, offer2) => offer2.price - offer1.price);
 
     render(
@@ -78,7 +78,7 @@ describe('Component: PlacesList', () => {
   });
 
   it('should render correctly when sorted type is "Top rated first"', () => {
-    const fakeOffers = makeOffers(10);
+    const fakeOffers = makeOffers(6);
     const sortedFakeOffers = fakeOffers.slice().sort((offer1, offer2) => offer2.rating - offer1.rating);
 
     render(

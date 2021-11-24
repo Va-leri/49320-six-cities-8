@@ -1,17 +1,25 @@
 import { FormEvent, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AuthorizationStatus } from '../../const';
 import { loginAction } from '../../store/api-actions';
 import { getCity } from '../../store/service-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-data/selectors';
 import Header from '../header/header';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 
 function LoginScreen(): JSX.Element {
   const currentCity = useSelector(getCity);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+
   const dispatch = useDispatch();
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <LoadingScreen />;
+  }
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
